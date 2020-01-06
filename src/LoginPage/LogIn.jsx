@@ -13,11 +13,11 @@ import Axios from "axios";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import apiCallAuth from "../apiCallAuth";
 import { LOGIN, SET_USER } from "../reducers/actionTypes";
 import VoidField from "./VoidField";
 import Loader from "./Loader";
 import DisplayError from "./DisplayError";
+import { useGet } from "restful-react";
 
 import { storeToken, setUser } from "../reducers/actions";
 
@@ -82,7 +82,7 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
         const userData = userList.filter(user => user.username === login);
         setUserRole(userData[0].roles[0]);
         setUser(userData[0]);
-        setIsLoading(false);
+        // setIsLoading(false);
       } catch (err) {
         console.log(err);
         setIsLoading(false);

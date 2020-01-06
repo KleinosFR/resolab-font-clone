@@ -1,5 +1,4 @@
 import axios from "axios";
-import { connect } from "react-redux";
 
 const AxiosInstance = axios.create({
   baseURL: `http://localhost:8089/api`,
@@ -9,4 +8,4 @@ const AxiosInstance = axios.create({
   }
 });
 
-export default connect()(AxiosInstance);
+export default AxiosInstance;

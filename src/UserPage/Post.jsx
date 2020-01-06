@@ -47,7 +47,6 @@ function Post({
 
   const [postOwnerInfo, setPostOwnerInfo] = useState({});
 
-
   const handlePostComment = () => {
     if (inputValue === "") {
       setIsInputEmpty(true);
@@ -108,7 +107,6 @@ function Post({
               <Warning />
             </IconButton>
           }
-
         />
         <CardMedia className={classes.media} image={photo} />
         <CardContent>

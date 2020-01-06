@@ -1,10 +1,28 @@
 import React from "react";
-// import Layout from "./Layout/Layout";
-
 import Router from "./Router";
+import { RestfulProvider } from "restful-react";
+import { connect } from "react-redux";
 
-function App() {
-  return <Router />;
+const makeAuth = token => {
+  console.log(token);
+  return { headers: { Authorization: "Bearer " + token } };
+};
+
+function App({ isAuth, authToken }) {
+  return (
+    <RestfulProvider
+      base="http://localhost:8089/api"
+      requestOptions={isAuth ? makeAuth(authToken) : null}
+    >
+      <Router />
+    </RestfulProvider>
+  );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    authToken: state.authReducer.token,
+    isAuth: state.authReducer.isAuth
+  };
+};
+export default connect(mapStateToProps)(App);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
+import { useGet, Poll } from "restful-react";
 
 import { useStyles } from "./useStyles";
 import apiCallAuth from "../apiCallAuth";
@@ -7,22 +8,27 @@ import Post from "./Post";
 
 function Publications({ handleSnackBar }) {
   const [publications, setPublications] = useState([]);
+  const [restfulPubli, setRestfulPubli] = useState([]);
 
   const classes = useStyles();
 
-  useEffect(() => {
-    const fetchDatas = async () => {
-      const res = await apiCallAuth.get("/posts");
-      setPublications(res.data);
-      setTimeout(() => {
-        fetchDatas();
-      }, 10000);
-    };
-    fetchDatas();
-  }, []);
+  // useEffect(() => {
+  //     const fetchDatas = async () => {
+  //         console.log(restfulPubli);
+
+  //         const res = await apiCallAuth.get("/posts");
+  //         setPublications(res.data);
+  //         setTimeout(() => {
+  //             fetchDatas();
+  //         }, 10000);
+  //     };
+  //     fetchDatas();
+  // }, []);
 
   return (
-    <>
+    <Poll path="/posts" resolve={data => data && setPublications(data)}>
+      {publications}
+
       {publications.map(publication => (
         <Box m={2}>
           <Post
@@ -37,7 +43,7 @@ function Publications({ handleSnackBar }) {
           />
         </Box>
       ))}
-    </>
+    </Poll>
   );
 }
 
