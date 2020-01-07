@@ -27,22 +27,24 @@ function Publications({ handleSnackBar }) {
 
   return (
     <Poll path="/posts" resolve={data => data && setPublications(data)}>
-      {publications}
+      {(data, {}) => {
+        return <div>toto</div>;
+      }}
 
-      {publications.map(publication => (
-        <Box m={2}>
-          <Post
-            key={publication.id}
-            description={publication.description}
-            photo={publication.photo}
-            classes={classes}
-            handleSnackBar={handleSnackBar}
-            postId={publication.id}
-            comments={publication.comments}
-            owner={publication.user}
-          />
-        </Box>
-      ))}
+      {/* publications.map(publication => (
+                 <Box m={2}>
+                     <Post
+                         key={publication.id}
+                         description={publication.description}
+                         photo={publication.photo}
+                         classes={classes}
+                         handleSnackBar={handleSnackBar}
+                         postId={publication.id}
+                         comments={publication.comments}
+                         owner={publication.user}
+                     />
+                 </Box>
+             ))} */}
     </Poll>
   );
 }
