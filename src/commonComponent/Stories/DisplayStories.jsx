@@ -6,6 +6,8 @@ import Storie from "./Story";
 import PostStorie from "./PostStorie";
 import img from "../../Assets/logo-resolab.png";
 
+const mediaUrl = process.env.REACT_APP_MEDIA_URL;
+
 function DisplayStories({ classes, handleSnackBar }) {
   const { datas, request } = useRecursiveGet("/stories", 10000);
 
@@ -31,7 +33,7 @@ function DisplayStories({ classes, handleSnackBar }) {
                       classes={classes}
                       username={story.user.username}
                       userIdStory={story.user.id}
-                      image={`http://localhost:8089/media/${story.image.filePath}`}
+                      image={`${mediaUrl}/media/${story.image.filePath}`}
                     />
                   ) : (
                     <Storie
