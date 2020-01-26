@@ -5,20 +5,19 @@ import alertReducer from "./reducers/alertReducer";
 import socketReducer from "./reducers/socketReducer";
 import thunk from "redux-thunk";
 
+
 // const store = createStore(
-//     combineReducers({ authReducer, userReducer }),
-//     compose(
-//         applyMiddleware(thunk),
-//         window.__REDUX_DEVTOOLS_EXTENSION__ &&
-//             window.__REDUX_DEVTOOLS_EXTENSION__()
-//     )
+//  combineReducers({ authReducer, userReducer, alertReducer, socketReducer }),
+//  compose(
+//    applyMiddleware(thunk),
+//    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//  )
 // );
 
 const store = createStore(
   combineReducers({ authReducer, userReducer, alertReducer, socketReducer }),
   compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(thunk))
   )
 );
 
