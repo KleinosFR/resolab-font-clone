@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { TextField, Grid } from "@material-ui/core";
 import { EmojiEmotions } from "@material-ui/icons";
 import axios from "axios";
+import { connect } from "react-redux";
 
 import EmojiPicker from "./EmojiPicker";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
 
-export default class MessageInput extends Component {
+class MessageInput extends Component {
   constructor(props) {
     super(props);
 
@@ -21,7 +22,7 @@ export default class MessageInput extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    const { isOnline, receiverId, senderId } = this.props;
+    const { isOnline, receiverId, senderId, token } = this.props;
     const { message } = this.state;
 
     if (isOnline) {
@@ -34,7 +35,7 @@ export default class MessageInput extends Component {
           { message, senderId, receiverId },
           {
             headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Authorization: "Bearer " + token,
               Accept: "application/json"
             }
           }
@@ -142,3 +143,11 @@ export default class MessageInput extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    token: state.authReducer.token
+  };
+};
+
+export default connect(mapStateToProps)(MessageInput);

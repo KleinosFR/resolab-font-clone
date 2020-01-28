@@ -13,7 +13,7 @@ class ChatWrapper extends Component {
     super(props);
     this.state = {
       socket: null,
-      user: "null",
+      user: this.props.user,
       error: ""
     };
   }
@@ -92,4 +92,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(ChatWrapper);
+const mapStateToProps = state => {
+  return {
+    user: state.userReducer
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatWrapper);

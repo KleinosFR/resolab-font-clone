@@ -4,9 +4,16 @@ import axios from "axios";
 
 import LikeNotification from "./LikeNotification";
 
-function NotifyLikes({ userId, setCount }) {
+function NotifyLikes({ userId, setCount, token }) {
   const [userLikes, setUserLikes] = useState([]);
   const [likesForUser, setLikesForUser] = useState([]);
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -15,12 +22,7 @@ function NotifyLikes({ userId, setCount }) {
     const nextPage = page + 1;
     let newUserLikes = [];
     axios
-      .get(`${apiUrl}/likes?page=${page}`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      })
+      .get(`${apiUrl}/likes?page=${page}`, config)
       .then(res => {
         const fetchedLikes = res.data;
 
@@ -33,18 +35,11 @@ function NotifyLikes({ userId, setCount }) {
         setUserLikes(newUserLikes);
       })
       .then(
-        axios
-          .get(`${apiUrl}/likes?page=${nextPage}`, {
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
-              Accept: "application/json"
-            }
-          })
-          .then(res => {
-            if (res.data.length !== 0) {
-              fetchLikes(nextPage);
-            }
-          })
+        axios.get(`${apiUrl}/likes?page=${nextPage}`, config).then(res => {
+          if (res.data.length !== 0) {
+            fetchLikes(nextPage);
+          }
+        })
       )
 
       .catch(err => console.log("error", err));
@@ -68,8 +63,12 @@ function NotifyLikes({ userId, setCount }) {
     </div>
   );
 }
+
 const mapStateToProps = state => {
-  return { userId: state.userReducer.id };
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
 };
 
 export default connect(mapStateToProps)(NotifyLikes);

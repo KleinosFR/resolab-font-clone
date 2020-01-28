@@ -21,7 +21,8 @@ function Comment({ comment, classes, token, userId }) {
 
   const config = {
     headers: {
-      Authorization: "Bearer " + token
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
     }
   };
 

@@ -36,7 +36,8 @@ function Storie({
 
   const config = {
     headers: {
-      Authorization: "Bearer " + token
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
     }
   };
 

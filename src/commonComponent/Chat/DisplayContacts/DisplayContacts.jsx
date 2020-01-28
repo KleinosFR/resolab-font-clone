@@ -48,7 +48,7 @@ class DisplayContacts extends Component {
     await axios
       .get(`${apiUrl}/users?page=${page}`, {
         headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          Authorization: "Bearer " + this.props.token,
           Accept: "application/json"
         }
       })
@@ -60,7 +60,7 @@ class DisplayContacts extends Component {
         await axios
           .get(`${apiUrl}/users?page=${nextPage}`, {
             headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              Authorization: "Bearer " + this.props.token,
               Accept: "application/json"
             }
           })
@@ -155,7 +155,8 @@ class DisplayContacts extends Component {
 
 const mapStateToProps = state => {
   return {
-    connectedUsers: state.connectedUsersReducer.connectedUsers
+    connectedUsers: state.connectedUsersReducer.connectedUsers,
+    token: state.authReducer.token
   };
 };
 

@@ -5,9 +5,16 @@ import axios from "axios";
 
 import CommentNotification from "./CommentNotification";
 
-function NotifyComments({ userId, setCount }) {
+function NotifyComments({ userId, setCount, token }) {
   const [userMessages, setUserMessages] = useState([]);
   const [commentsOnUserMessages, setCommentsOnUserMessages] = useState([]);
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
 
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -16,24 +23,14 @@ function NotifyComments({ userId, setCount }) {
     const nextPage = page + 1;
     let messages = previousMessages;
     await axios
-      .get(`${apiUrl}/posts?page=${page}`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      })
+      .get(`${apiUrl}/posts?page=${page}`, config)
       .then(async res => {
         const fetchedMessages = res.data;
         messages = messages.concat(
           fetchedMessages.filter(post => post.user.id === userId)
         );
         await axios
-          .get(`${apiUrl}/posts?page=${nextPage}`, {
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
-              Accept: "application/json"
-            }
-          })
+          .get(`${apiUrl}/posts?page=${nextPage}`, config)
           .then(res => {
             if (res.data.length !== 0) {
               fetchPosts(nextPage, messages);
@@ -85,7 +82,10 @@ function NotifyComments({ userId, setCount }) {
 }
 
 const mapStateToProps = state => {
-  return { userId: state.userReducer.id };
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
 };
 
 export default connect(mapStateToProps)(NotifyComments);

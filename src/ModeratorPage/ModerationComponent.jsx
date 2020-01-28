@@ -19,11 +19,18 @@ import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
 
 import ModerationContent from "./ModerationContent";
-import { removeAlert } from "../reducers/actions";
+import { removeAlert, setAlert } from "../reducers/actions";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function ModerationComponent({ openAlert, classes, removeAlert }) {
+function ModerationComponent({
+  openAlert,
+  classes,
+  removeAlert,
+  setAlert,
+  token,
+  userId
+}) {
   const [isBlocked, setIsBlocked] = useState(true);
   const [isBlockedLoading, setIsBlockedLoading] = useState(false);
   const [isTakenInCharge, setIsTakenInCharge] = useState(openAlert.takenCare);
@@ -32,7 +39,8 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
 
   const config = {
     headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("token")
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
     }
   };
 
@@ -50,6 +58,17 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
         .then(res => {
           setIsBlocked(!isBlocked);
           console.log(res);
+          axios
+            .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+            .then(res => {
+              const updatedAlert = res.data;
+              console.log(updatedAlert);
+              setAlert(updatedAlert);
+            })
+            .catch(err => {
+              console.log(err.message);
+              throw err;
+            });
         })
         .catch(err => console.log(err))
         .finally(() => setIsBlockedLoading(false));
@@ -66,6 +85,17 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
         .then(res => {
           setIsBlocked(!isBlocked);
           console.log(res);
+          axios
+            .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+            .then(res => {
+              const updatedAlert = res.data;
+              console.log(updatedAlert);
+              setAlert(updatedAlert);
+            })
+            .catch(err => {
+              console.log(err.message);
+              throw err;
+            });
         })
         .catch(err => console.log(err))
         .finally(() => setIsBlockedLoading(false));
@@ -82,6 +112,17 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
         .then(res => {
           setIsBlocked(!isBlocked);
           console.log(res);
+          axios
+            .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+            .then(res => {
+              const updatedAlert = res.data;
+              console.log(updatedAlert);
+              setAlert(updatedAlert);
+            })
+            .catch(err => {
+              console.log(err.message);
+              throw err;
+            });
         })
         .catch(err => console.log(err))
         .finally(() => setIsBlockedLoading(false));
@@ -89,20 +130,31 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
   };
 
   const handleTakeInCharge = () => {
-    const takenInCharge = isTakenInCharge;
     axios
       .put(
         `${apiUrl}/alerts/${openAlert.id}`,
         {
-          takenCare: !takenInCharge
+          takenCare: true,
+          moderator: `/api/users/${userId}`
         },
         config
       )
       .then(res => {
         console.log(res);
+        axios
+          .get(`${apiUrl}/alerts/${openAlert.id}`, config)
+          .then(res => {
+            const updatedAlert = res.data;
+            console.log(updatedAlert);
+            setAlert(updatedAlert);
+          })
+          .catch(err => {
+            console.log(err.message);
+            throw err;
+          });
       })
       .catch(err => console.log(err));
-    setIsTakenInCharge(!isTakenInCharge);
+    setIsTakenInCharge(true);
   };
 
   const handleResolved = () => {
@@ -168,37 +220,77 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
       </CardContent>
       <CardActions disableSpacing>
         <Grid container>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              startIcon={isBlockedLoading && <CircularProgress />}
-              disabled={isBlockedLoading}
-              color={isBlocked ? "secondary" : "primary"}
-              onClick={handleBlocked}
-            >
-              Débloquer le contenu
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography>Prise en charge du problème</Typography>
-            <Switch
-              checked={isTakenInCharge}
-              onChange={handleTakeInCharge}
-              value={isTakenInCharge}
-              color="secondary"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              startIcon={isResolvedLoading && <CircularProgress />}
-              disabled={isResolvedLoading}
-              color={isResolved ? "primary" : "secondary"}
-              onClick={handleResolved}
-            >
-              Problème résolu
-            </Button>
-          </Grid>
+          {openAlert.takenCare === false ? (
+            <>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Typography
+                  style={{
+                    color: "#ff5722",
+                    fontWeight: "1000"
+                  }}
+                >
+                  Prise en charge du problème
+                </Typography>
+                <Switch
+                  checked={isTakenInCharge}
+                  onChange={handleTakeInCharge}
+                  value={isTakenInCharge}
+                  color="secondary"
+                />
+              </Grid>
+              <Grid item xs={4}></Grid>
+            </>
+          ) : userId === openAlert.moderator.id ? (
+            <>
+              <Grid item xs={4}>
+                {(openAlert.post && openAlert.post.display === false) ||
+                (openAlert.comment && openAlert.comment.display === false) ||
+                (openAlert.story && openAlert.story.display === false) ? (
+                  <Button
+                    variant="contained"
+                    startIcon={isBlockedLoading && <CircularProgress />}
+                    disabled={isBlockedLoading}
+                    color={"secondary"}
+                    onClick={handleBlocked}
+                  >
+                    Débloquer le contenu
+                  </Button>
+                ) : (
+                  <Button variant="contained" disabled>
+                    Débloquer le contenu
+                  </Button>
+                )}
+              </Grid>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  startIcon={isResolvedLoading && <CircularProgress />}
+                  disabled={isResolvedLoading}
+                  color={isResolved ? "primary" : "secondary"}
+                  onClick={handleResolved}
+                >
+                  Problème résolu
+                </Button>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Typography
+                  style={{
+                    color: "#ff5722",
+                    fontWeight: "1000"
+                  }}
+                >
+                  {openAlert.moderator.username} a pris en charge cette alerte
+                </Typography>
+              </Grid>
+              <Grid item xs={4}></Grid>
+            </>
+          )}
         </Grid>
       </CardActions>
     </Card>
@@ -207,12 +299,15 @@ function ModerationComponent({ openAlert, classes, removeAlert }) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeAlert: () => dispatch(removeAlert())
+    removeAlert: () => dispatch(removeAlert()),
+    setAlert: alert => dispatch(setAlert(alert))
   };
 };
 
 const mapStateToProps = state => ({
-  openAlert: state.alertReducer.alert
+  openAlert: state.alertReducer.alert,
+  token: state.authReducer.token,
+  userId: state.userReducer.id
 });
 
 export default connect(

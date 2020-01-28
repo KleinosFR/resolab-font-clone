@@ -7,20 +7,22 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function CommentLikes({ commentId, userId }) {
+function CommentLikes({ commentId, userId, token }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [likesCount, setLikesCount] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
+
   useEffect(() => {
     axios
-      .get(`${apiUrl}/likes?comment.id=${commentId}`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      })
+      .get(`${apiUrl}/likes?comment.id=${commentId}`, config)
       .then(res => {
         const data = res.data;
         setLikes(data);
@@ -37,20 +39,10 @@ function CommentLikes({ commentId, userId }) {
     if (isLiked) {
       const userLike = likes.find(like => like.user.id === userId);
       axios
-        .delete(`${apiUrl}/likes/${userLike.id}`, {
-          headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
-            Accept: "application/json"
-          }
-        })
+        .delete(`${apiUrl}/likes/${userLike.id}`, config)
         .then(res => {
           axios
-            .get(`${apiUrl}/likes?comment.id=${commentId}`, {
-              headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("token"),
-                Accept: "application/json"
-              }
-            })
+            .get(`${apiUrl}/likes?comment.id=${commentId}`, config)
             .then(res => {
               const data = res.data;
               setLikes(data);
@@ -68,21 +60,11 @@ function CommentLikes({ commentId, userId }) {
             user: `api/users/${userId}`,
             comment: `api/comments/${commentId}`
           },
-          {
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
-              Accept: "application/json"
-            }
-          }
+          config
         )
         .then(res => {
           axios
-            .get(`${apiUrl}/likes?comment.id=${commentId}`, {
-              headers: {
-                Authorization: "Bearer " + sessionStorage.getItem("token"),
-                Accept: "application/json"
-              }
-            })
+            .get(`${apiUrl}/likes?comment.id=${commentId}`, config)
             .then(res => {
               const data = res.data;
               setLikes(data);
@@ -117,7 +99,8 @@ function CommentLikes({ commentId, userId }) {
 
 const mapstateToProps = state => {
   return {
-    userId: state.userReducer.id
+    userId: state.userReducer.id,
+    token: state.authReducer.token
   };
 };
 

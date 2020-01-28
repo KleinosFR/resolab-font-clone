@@ -10,13 +10,20 @@ import useInterval from "../../useInterval";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function DisplayPublications({ handleSnackBar, userId }) {
+function DisplayPublications({ handleSnackBar, userId, token }) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
   const [lastPageToFetch, setLastPageToFetch] = useState(1);
   const [timerCount, setTimerCount] = useState(0);
 
   const classes = useStyles();
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
 
   //  sets the interval for fetching new posts using custom hook
   useInterval(() => {
@@ -34,12 +41,10 @@ function DisplayPublications({ handleSnackBar, userId }) {
   const fetchPages = async lastPage => {
     let fetchedPublications = [];
     for (let page = 1; page <= lastPage; page++) {
-      const res = await axios.get(`${apiUrl}/posts?display=true&page=${page}`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      });
+      const res = await axios.get(
+        `${apiUrl}/posts?display=true&page=${page}`,
+        config
+      );
       fetchedPublications = fetchedPublications.concat(res.data);
     }
     return fetchedPublications;

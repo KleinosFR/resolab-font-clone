@@ -37,16 +37,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const mapStateToProps = state => ({
-  id: state.userReducer.id
-});
-
 function PostArticle({ id, token, handleSnackBar }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [description, setDescription] = useState("");
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
 
   useEffect(() => {
     if (image) {
@@ -83,12 +86,7 @@ function PostArticle({ id, token, handleSnackBar }) {
     formData.append("file", image);
 
     axios
-      .post(`${apiUrl}/media_objects`, formData, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      })
+      .post(`${apiUrl}/media_objects`, formData, config)
       .then(res => {
         console.log(res);
         return axios.post(
@@ -99,12 +97,7 @@ function PostArticle({ id, token, handleSnackBar }) {
             likes: 0,
             user: `/api/users/${id}`
           },
-          {
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
-              Accept: "application/json"
-            }
-          }
+          config
         );
       })
       .then(res => {
@@ -208,5 +201,10 @@ function PostArticle({ id, token, handleSnackBar }) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  id: state.userReducer.id,
+  token: state.authReducer.token
+});
 
 export default connect(mapStateToProps)(PostArticle);

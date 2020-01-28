@@ -13,7 +13,7 @@ export default function Sidebar({ classes }) {
 
   return (
     <div style={{ position: "fixed", top: "300px" }}>
-      {role === "ROLE_MODERATOR" && (
+      {(role === "ROLE_MODERATOR" || role === "ROLE_ADMIN") && (
         <>
           <ModeratorInfos classes={classes} />
           <Alerts classes={classes} />

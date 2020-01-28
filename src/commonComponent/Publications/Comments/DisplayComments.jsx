@@ -7,20 +7,18 @@ function DisplayComments({ comments, classes }) {
   return (
     <>
       {comments.length > 0 ? (
-        <>
-          <List className={classes.root}>
-            {comments
-              .slice(0)
-              .reverse()
-              .map(comment => (
-                <>
-                  {comment.display && (
-                    <Comment comment={comment} classes={classes} />
-                  )}
-                </>
-              ))}
-          </List>
-        </>
+        <List className={classes.root}>
+          {comments
+            .slice(0)
+            .reverse()
+            .map(comment => (
+              <>
+                {comment.display && (
+                  <Comment comment={comment} classes={classes} />
+                )}
+              </>
+            ))}
+        </List>
       ) : (
         <CardContent>
           <Typography>Aucun commentaire</Typography>

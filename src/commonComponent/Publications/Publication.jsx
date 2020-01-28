@@ -53,9 +53,11 @@ function Post({
 
   const config = {
     headers: {
-      Authorization: "Bearer " + token
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
     }
   };
+
   useEffect(() => {
     stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
     if (userId === userIdPublication) {
@@ -85,12 +87,7 @@ function Post({
             post: `/api/posts/${postId}`,
             user: `/api/users/${userId}`
           },
-          {
-            headers: {
-              Authorization: "Bearer " + sessionStorage.getItem("token"),
-              Accept: "application/json"
-            }
-          }
+          config
         )
         .then(res => {
           setInputValue("");

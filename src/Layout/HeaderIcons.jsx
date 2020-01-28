@@ -3,11 +3,14 @@ import { Settings, ExitToApp } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
+import { useHistory } from "react-router-dom";
 
 import { LOGOUT } from "../utils/Events";
 import { removeToken } from "../reducers/actions";
 
-function HeaderIcons({ logOut, socket }) {
+function HeaderIcons({ logOut, socket, role }) {
+  const history = useHistory();
+
   const handleLogout = () => {
     logOut();
     chatLogout(socket);
@@ -17,13 +20,20 @@ function HeaderIcons({ logOut, socket }) {
     socket.emit(LOGOUT);
   };
 
+  const handleAdmin = () => {
+    console.log("going to admin page");
+    history.push("/admin");
+  };
+
   return (
     <Grid item xs={3} spacing={3}>
       <Grid container justify="space-evenly">
         <Grid item xs={3}>
-          <Fab color="default">
-            <Settings color="default" />
-          </Fab>
+          {role === "ROLE_ADMIN" && (
+            <Fab color="default">
+              <Settings color="default" onClick={handleAdmin} />
+            </Fab>
+          )}
         </Grid>
         <Grid item xs={3}>
           <Fab color="default">
@@ -43,7 +53,8 @@ const mapdispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    socket: state.socketReducer.socket
+    socket: state.socketReducer.socket,
+    role: state.userReducer.roles[0]
   };
 };
 

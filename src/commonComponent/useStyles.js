@@ -86,5 +86,9 @@ export const useStyles = makeStyles(theme => ({
     left: "0px",
     zIndex: "100",
     visibility: "hidden"
+  },
+  dividerAlert: {
+    marginTop: 16,
+    marginBottom: 16
   }
 }));

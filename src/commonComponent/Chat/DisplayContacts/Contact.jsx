@@ -39,6 +39,13 @@ function Contact({
   connectedUsers,
   retrieveOnlineUsers
 }) {
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
+
   const [chatVisibility, setChatVisibility] = useState(false);
   const [alert, setAlert] = useState(false);
   const [userChat, setUserChat] = useState(chat[0]);
@@ -79,12 +86,7 @@ function Contact({
 
   const fetchDbMessages = async () => {
     await axios
-      .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json"
-        }
-      })
+      .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, config)
       .then(res => {
         setFetchedMessages(res.data);
       });
