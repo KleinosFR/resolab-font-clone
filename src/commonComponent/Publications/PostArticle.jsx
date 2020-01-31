@@ -154,7 +154,11 @@ function PostArticle({ id, token, handleSnackBar }) {
             >
               <div className="scroll-publication">
                 {image ? (
-                  <img src={previewImage} alt="" width={450} />
+                  <img
+                    src={previewImage}
+                    alt=""
+                    style={{ maxHeight: "50vh", width: "auto" }}
+                  />
                 ) : (
                   <WebcamComponent setImage={setImage} />
                 )}

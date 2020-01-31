@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TextField } from "@material-ui/core";
 import { orderBy, findIndex } from "lodash";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -12,7 +13,8 @@ class DisplayContacts extends Component {
     super(props);
     this.state = {
       reciever: "",
-      allUsers: []
+      allUsers: [],
+      searchUser: ""
     };
   }
 
@@ -30,6 +32,7 @@ class DisplayContacts extends Component {
 
   retrieveOnlineUsers(usersArray) {
     const { allUsers } = this.state;
+    const { userInfos } = this.props;
     const updatedUsers = allUsers.map(usr => {
       let isOnline = false;
       usersArray.some(connectUser => {
@@ -39,11 +42,20 @@ class DisplayContacts extends Component {
       });
       return { ...usr, isOnline };
     });
-    this.setState({ allUsers: updatedUsers });
+    const filtereduUsers =
+      userInfos.isRestricted && userInfos.role[0] === "ROLE_STUDENT"
+        ? updatedUsers.filter(
+            user =>
+              user.role[0] !== "ROLE_STUDENT" ||
+              user.classroom.id === userInfos.classroom.id
+          )
+        : updatedUsers;
+
+    this.setState({ allUsers: filtereduUsers });
   }
 
   async fetchUsers(page, previousUsers) {
-    // retreiving all users from database until there is no more post
+    // retreiving all users from database until there is no more users
     const nextPage = page + 1;
     await axios
       .get(`${apiUrl}/users?page=${page}`, {
@@ -87,20 +99,17 @@ class DisplayContacts extends Component {
       users,
       classes
     } = this.props;
-    const { reciever, allUsers } = this.state;
+    const { reciever, allUsers, searchUser } = this.state;
     return (
       <div id="side-bar">
-        <form onSubmit={this.handleSubmit} className="search">
-          <input
-            placeholder="Search"
-            type="text"
-            value={reciever}
-            onChange={e => {
-              this.setState({ reciever: e.target.value });
-            }}
-          />
-          <div className="plus"></div>
-        </form>
+        <TextField
+          label="Rechercher un contact"
+          variant="outlined"
+          size="small"
+          value={searchUser}
+          onChange={e => this.setState({ searchUser: e.target.value })}
+        />
+
         <div
           className="users"
           ref="users"
@@ -109,44 +118,46 @@ class DisplayContacts extends Component {
           }}
         >
           {allUsers &&
-            orderBy(allUsers, ["isOnline"], "desc").map(usr => {
-              return (
-                <Contact
-                  activeChat={activeChat}
-                  key={usr.id}
-                  user={user}
-                  receiver={usr}
-                  retrieveOnlineUsers={userArray =>
-                    this.retrieveOnlineUsers(userArray)
-                  }
-                  socketReceiver={users.find(rcvr => rcvr.id === usr.id)}
-                  classes={classes}
-                  addChat={(receiverName, receiverId) =>
-                    this.props.onSendPrivateMessage(receiverName, receiverId)
-                  }
-                  chat={chats.filter(chat => {
-                    const user0 = chat.users[0];
-                    const user1 = chat.users[1];
-                    return (
-                      (user0 === user.name && user1 === usr.username) ||
-                      (user1 === user.name && user0 === usr.username)
-                    );
-                  })}
-                  setActiveChat={chat => this.props.setActiveChat(chat)}
-                  sendTyping={(chatId, isTyping) =>
-                    this.props.sendTyping(chatId, isTyping)
-                  }
-                  sendMessage={(chatId, receiver, receiverId, message) =>
-                    this.props.sendMessage(
-                      chatId,
-                      receiver,
-                      receiverId,
-                      message
-                    )
-                  }
-                />
-              );
-            })}
+            orderBy(allUsers, ["isOnline"], "desc")
+              .filter(user => user.username.includes(searchUser))
+              .map(usr => {
+                return (
+                  <Contact
+                    activeChat={activeChat}
+                    key={usr.id}
+                    user={user}
+                    receiver={usr}
+                    retrieveOnlineUsers={userArray =>
+                      this.retrieveOnlineUsers(userArray)
+                    }
+                    socketReceiver={users.find(rcvr => rcvr.id === usr.id)}
+                    classes={classes}
+                    addChat={(receiverName, receiverId) =>
+                      this.props.onSendPrivateMessage(receiverName, receiverId)
+                    }
+                    chat={chats.filter(chat => {
+                      const user0 = chat.users[0];
+                      const user1 = chat.users[1];
+                      return (
+                        (user0 === user.name && user1 === usr.username) ||
+                        (user1 === user.name && user0 === usr.username)
+                      );
+                    })}
+                    setActiveChat={chat => this.props.setActiveChat(chat)}
+                    sendTyping={(chatId, isTyping) =>
+                      this.props.sendTyping(chatId, isTyping)
+                    }
+                    sendMessage={(chatId, receiver, receiverId, message) =>
+                      this.props.sendMessage(
+                        chatId,
+                        receiver,
+                        receiverId,
+                        message
+                      )
+                    }
+                  />
+                );
+              })}
         </div>
       </div>
     );
@@ -156,7 +167,8 @@ class DisplayContacts extends Component {
 const mapStateToProps = state => {
   return {
     connectedUsers: state.connectedUsersReducer.connectedUsers,
-    token: state.authReducer.token
+    token: state.authReducer.token,
+    userInfos: state.userReducer
   };
 };
 

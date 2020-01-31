@@ -11,13 +11,13 @@ export default function HeaderSite() {
         src={logo}
         width="170px"
         alt="RésoLab-logo"
-        style={{ padding: "2px" }}
+        style={{ padding: "8px" }}
       />
       <h1
         style={{
           fontSize: "12px",
-          marginTop: "-2px",
-          padding: "2px",
+          marginTop: "-20px",
+          padding: "8px",
           fontFamily: "Roboto"
         }}
       >

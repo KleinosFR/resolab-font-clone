@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
+import { connect } from "react-redux";
 
 import { useRecursiveGet } from "../../hooks/useApi";
 import Storie from "./Story";
@@ -8,8 +9,11 @@ import img from "../../Assets/logo-resolab.png";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 
-function DisplayStories({ classes, handleSnackBar }) {
+function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
   const { datas, request } = useRecursiveGet("/stories", 10000);
+  const [userRoles, serUserRoles] = useState(roles);
+
+  const isRestricted = true;
 
   useEffect(() => {
     request();
@@ -18,39 +22,84 @@ function DisplayStories({ classes, handleSnackBar }) {
   return (
     <Grid container direction="row" alignItems="center" wrap="nowrap">
       <PostStorie classes={classes} handleSnackBar={handleSnackBar} />
-      {datas &&
-        datas.map(story => {
-          const storyDate = Date.parse(story.date);
-          const nowDate = Date.now();
-          const imageStory = story.image;
-          return (
-            <>
-              {nowDate - storyDate < 86400000 && story.display && (
-                <>
-                  {imageStory ? (
-                    <Storie
-                      storyId={story.id}
-                      classes={classes}
-                      username={story.user.username}
-                      userIdStory={story.user.id}
-                      image={`${mediaUrl}/media/${story.image.filePath}`}
-                    />
-                  ) : (
-                    <Storie
-                      storyId={story.id}
-                      classes={classes}
-                      username={story.user.username}
-                      userIdStory={story.user.id}
-                      image={img}
-                    />
-                  )}
-                </>
-              )}
-            </>
-          );
-        })}
+      {datas && (
+        <>
+          {userRoles[0] === "ROLE_STUDENT" && isRestricted
+            ? datas
+                .filter(story => story.user.classRoom.id === classroomId)
+                .map(story => {
+                  const storyDate = Date.parse(story.date);
+                  const nowDate = Date.now();
+                  const imageStory = story.image;
+                  return (
+                    <>
+                      {nowDate - storyDate < 86400000 && story.display && (
+                        <>
+                          {imageStory ? (
+                            <Storie
+                              storyId={story.id}
+                              classes={classes}
+                              username={story.user.username}
+                              userIdStory={story.user.id}
+                              image={`${mediaUrl}/media/${story.image.filePath}`}
+                            />
+                          ) : (
+                            <Storie
+                              storyId={story.id}
+                              classes={classes}
+                              username={story.user.username}
+                              userIdStory={story.user.id}
+                              image={img}
+                            />
+                          )}
+                        </>
+                      )}
+                    </>
+                  );
+                })
+            : datas.map(story => {
+                const storyDate = Date.parse(story.date);
+                const nowDate = Date.now();
+                const imageStory = story.image;
+                return (
+                  <>
+                    {nowDate - storyDate < 86400000 && story.display && (
+                      <>
+                        {imageStory ? (
+                          <Storie
+                            storyId={story.id}
+                            classes={classes}
+                            username={story.user.username}
+                            userIdStory={story.user.id}
+                            image={`${mediaUrl}/media/${story.image.filePath}`}
+                          />
+                        ) : (
+                          <Storie
+                            storyId={story.id}
+                            classes={classes}
+                            username={story.user.username}
+                            userIdStory={story.user.id}
+                            image={img}
+                          />
+                        )}
+                      </>
+                    )}
+                  </>
+                );
+              })}
+        </>
+      )}
     </Grid>
   );
 }
 
-export default DisplayStories;
+const mapStateToProps = state => {
+  return {
+    roles: state.userReducer.roles,
+    classroomId: state.userReducer.classroom
+      ? state.userReducer.classroom.id
+      : null
+  };
+};
+
+export default connect(mapStateToProps)(DisplayStories);

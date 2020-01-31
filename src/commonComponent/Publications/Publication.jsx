@@ -222,7 +222,11 @@ function Post({
             </>
           }
         />
-        <CardMedia className={classes.media} image={photo} />
+        <CardMedia
+          className={classes.media}
+          image={photo}
+          // style={{ maxHeight: "50vh" }}
+        />
         <CardContent>
           <Typography>{description}</Typography>
         </CardContent>

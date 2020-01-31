@@ -40,7 +40,7 @@ function Comment({ comment, classes, token, userId }) {
         setIsAlert(true);
         axios
           .put(
-            `api/comments/${comment.id}`,
+            `${apiUrl}/comments/${comment.id}`,
             {
               display: false
             },

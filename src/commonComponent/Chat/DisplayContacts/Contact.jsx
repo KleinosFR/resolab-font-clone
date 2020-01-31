@@ -84,6 +84,16 @@ function Contact({
     }
   };
 
+  //   const toto = [{}, {}, {}];
+
+  // const filteredToto = toto.filter(x => x.isRead === false);
+
+  // const res = await Promise.all(
+  //     filteredToto.map(x => {
+  //         return Axios.post();
+  //     })
+  // );
+
   const fetchDbMessages = async () => {
     await axios
       .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, config)

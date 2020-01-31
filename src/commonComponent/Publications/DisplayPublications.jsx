@@ -10,11 +10,20 @@ import useInterval from "../../useInterval";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function DisplayPublications({ handleSnackBar, userId, token }) {
+function DisplayPublications({
+  handleSnackBar,
+  userId,
+  roles,
+  classroomId,
+  token
+}) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
   const [lastPageToFetch, setLastPageToFetch] = useState(1);
   const [timerCount, setTimerCount] = useState(0);
+  const [userRoles, serUserRoles] = useState(roles);
+
+  const isRestricted = true;
 
   const classes = useStyles();
 
@@ -99,6 +108,35 @@ function DisplayPublications({ handleSnackBar, userId, token }) {
                     </>
                   );
                 })
+            : userRoles[0] === "ROLE_STUDENT" && isRestricted
+            ? publications
+                .filter(publi =>
+                  publi.user.classRoom
+                    ? publi.user.classRoom.id === classroomId
+                    : true
+                )
+                .map(publication => {
+                  return (
+                    <>
+                      {publication.display && (
+                        <Box m={2}>
+                          <Publication
+                            key={publication.id}
+                            description={publication.description}
+                            photo={publication.photo}
+                            classes={classes}
+                            handleSnackBar={handleSnackBar}
+                            postId={publication.id}
+                            comments={publication.comments}
+                            owner={publication.user}
+                            likes={publication.likes}
+                            userIdPublication={publication.user.id}
+                          />
+                        </Box>
+                      )}
+                    </>
+                  );
+                })
             : publications.map(publication => {
                 return (
                   <>
@@ -130,6 +168,10 @@ function DisplayPublications({ handleSnackBar, userId, token }) {
 const mapStateToProps = state => {
   return {
     userId: state.userReducer.id,
+    roles: state.userReducer.roles,
+    classroomId: state.userReducer.classroom
+      ? state.userReducer.classroom.id
+      : null,
     token: state.authReducer.token
   };
 };
