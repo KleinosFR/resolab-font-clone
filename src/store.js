@@ -5,15 +5,7 @@ import alertReducer from "./reducers/alertReducer";
 import connectedUsersReducer from "./reducers/connectedUsersReducer";
 import socketReducer from "./reducers/socketReducer";
 import thunk from "redux-thunk";
-
-// const store = createStore(
-//     combineReducers({ authReducer, userReducer }),
-//     compose(
-//         applyMiddleware(thunk),
-//         window.__REDUX_DEVTOOLS_EXTENSION__ &&
-//             window.__REDUX_DEVTOOLS_EXTENSION__()
-//     )
-// );
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const store = createStore(
   combineReducers({
@@ -23,10 +15,7 @@ const store = createStore(
     connectedUsersReducer,
     socketReducer
   }),
-  compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 export default store;
