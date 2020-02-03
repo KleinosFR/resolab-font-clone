@@ -70,11 +70,10 @@ export const useStyles = makeStyles(theme => ({
   },
   chatWindowVisible: {
     width: "40vw",
-    maxHeight: "50vh",
-    minHeight: "45vh",
+    height: "45vh",
     position: "fixed",
     bottom: "10px",
-    left: "0px",
+    left: "10px",
     zIndex: "100",
     backgroundColor: "rgba(255,255,255,1)",
     visibility: "visible"

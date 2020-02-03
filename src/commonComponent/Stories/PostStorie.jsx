@@ -76,9 +76,18 @@ function PostStorie({ id, classes, handleSnackBar, token }) {
         console.log(res);
         setPreviewImage(null);
         setImage(null);
-        return handleSnackBar("Ta storie a bien été postée");
+        return handleSnackBar("Ta storie a bien été postée", "success");
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        if (image.size > 999999) {
+          handleSnackBar(
+            "Attention, la taille de ton image ne peut pas être supérieure à 1Mo",
+            "error"
+          );
+        } else {
+          handleSnackBar("Il y a eu un problème", "error");
+        }
+      })
       .finally(() => handleClose());
   };
 
@@ -136,6 +145,7 @@ function PostStorie({ id, classes, handleSnackBar, token }) {
                   id="outlined-full-width"
                   label="Ajouter une photo à partir de tes fichiers"
                   type="file"
+                  helperText="Taille max acceptée : 1Mo"
                   style={{ margin: 18 }}
                   fullWidth
                   margin="normal"

@@ -62,13 +62,12 @@ function Contact({
   }, [receiver, user]);
 
   useEffect(() => {
-    console.log("chat update");
     setActiveChat(chat[0]);
     setUserChat(chat[0]);
   }, [chat[0]]);
 
   useEffect(() => {
-    console.log("user connected");
+    console.log("user connected to chat");
     find(connectedUsers, { id: receiver.id })
       ? setIsOnline(true)
       : setIsOnline(false);
@@ -104,12 +103,10 @@ function Contact({
 
   const openChat = async () => {
     if (userChat === undefined) {
-      console.log("create chat");
       receiver.isOnline &&
         (await addChat(socketReceiver.name, socketReceiver.id));
       setChatVisibility(true);
     } else {
-      console.log("switch to chat");
       setChatVisibility(true);
       receiver.isOnline && setActiveChat(chat[0]);
       receiver.isOnline && setUserChat(chat[0]);

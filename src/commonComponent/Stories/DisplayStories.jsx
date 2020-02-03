@@ -9,11 +9,15 @@ import img from "../../Assets/logo-resolab.png";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 
-function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
+function DisplayStories({
+  classes,
+  handleSnackBar,
+  roles,
+  classroomId,
+  isRestricted
+}) {
   const { datas, request } = useRecursiveGet("/stories", 10000);
-  const [userRoles, serUserRoles] = useState(roles);
-
-  const isRestricted = true;
+  const [userRoles, setUserRoles] = useState(roles);
 
   useEffect(() => {
     request();
@@ -26,7 +30,11 @@ function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
         <>
           {userRoles[0] === "ROLE_STUDENT" && isRestricted
             ? datas
-                .filter(story => story.user.classRoom.id === classroomId)
+                .filter(story =>
+                  story.user.classRoom
+                    ? story.user.classRoom.id === classroomId
+                    : true
+                )
                 .map(story => {
                   const storyDate = Date.parse(story.date);
                   const nowDate = Date.now();
@@ -42,6 +50,7 @@ function DisplayStories({ classes, handleSnackBar, roles, classroomId }) {
                               username={story.user.username}
                               userIdStory={story.user.id}
                               image={`${mediaUrl}/media/${story.image.filePath}`}
+                              handleSnackBar={handleSnackBar}
                             />
                           ) : (
                             <Storie
@@ -98,7 +107,8 @@ const mapStateToProps = state => {
     roles: state.userReducer.roles,
     classroomId: state.userReducer.classroom
       ? state.userReducer.classroom.id
-      : null
+      : null,
+    isRestricted: state.userReducer.isRestricted
   };
 };
 

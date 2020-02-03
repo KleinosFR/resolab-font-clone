@@ -14,10 +14,12 @@ export default function UserPage() {
   const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackBarColor, setSnackBarColor] = useState("success");
 
-  const handleSnackBar = message => {
+  const handleSnackBar = (message, color) => {
     setSnackBarNotification(true);
     setSnackbarMessage(message);
+    color ? setSnackBarColor(color) : setSnackBarColor("succes");
   };
 
   return (
@@ -56,6 +58,7 @@ export default function UserPage() {
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}
         message={snackbarMessage}
+        color={snackBarColor}
       />
     </Layout>
   );

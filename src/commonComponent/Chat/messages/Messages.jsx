@@ -30,11 +30,7 @@ export default class Messages extends Component {
       isOnline
     } = this.props;
     return (
-      <div
-        ref="container"
-        className="thread-container"
-        style={{ height: "250px" }}
-      >
+      <div ref="container" className="thread-container">
         <div className="thread">
           {oldMessages &&
             oldMessages.map(mes => {

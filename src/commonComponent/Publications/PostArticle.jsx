@@ -79,7 +79,6 @@ function PostArticle({ id, token, handleSnackBar }) {
   };
 
   const handleSubmit = e => {
-    console.log(description, image);
     e.preventDefault();
 
     const formData = new FormData();
@@ -88,7 +87,6 @@ function PostArticle({ id, token, handleSnackBar }) {
     axios
       .post(`${apiUrl}/media_objects`, formData, config)
       .then(res => {
-        console.log(res);
         return axios.post(
           `${apiUrl}/posts`,
           {
@@ -101,13 +99,21 @@ function PostArticle({ id, token, handleSnackBar }) {
         );
       })
       .then(res => {
-        console.log(res);
         setPreviewImage(null);
         setImage(null);
         setDescription("");
-        return handleSnackBar("Ta publication a bien été postée");
+        return handleSnackBar("Ta publication a bien été postée", "success");
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        if (image.size > 999999) {
+          handleSnackBar(
+            "Attention, la taille de ton image ne peut pas être supérieure à 1Mo",
+            "error"
+          );
+        } else {
+          handleSnackBar("Il y a eu un problème", "error");
+        }
+      })
       .finally(() => handleClose());
   };
 
@@ -157,7 +163,10 @@ function PostArticle({ id, token, handleSnackBar }) {
                   <img
                     src={previewImage}
                     alt=""
-                    style={{ maxHeight: "50vh", width: "auto" }}
+                    style={{
+                      maxHeight: "50vh",
+                      width: "auto"
+                    }}
                   />
                 ) : (
                   <WebcamComponent setImage={setImage} />
@@ -169,6 +178,7 @@ function PostArticle({ id, token, handleSnackBar }) {
                   id="outlined-full-width"
                   label="Ajouter une photo via l'ordinateur"
                   type="file"
+                  helperText="Taille max acceptée : 1Mo"
                   style={{ margin: 18 }}
                   fullWidth
                   margin="normal"

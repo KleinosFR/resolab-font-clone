@@ -15,15 +15,14 @@ function DisplayPublications({
   userId,
   roles,
   classroomId,
-  token
+  token,
+  isRestricted
 }) {
   const [publications, setPublications] = useState([]);
   const [showUserPublications, setShowUserPublications] = useState(false);
   const [lastPageToFetch, setLastPageToFetch] = useState(1);
   const [timerCount, setTimerCount] = useState(0);
   const [userRoles, serUserRoles] = useState(roles);
-
-  const isRestricted = true;
 
   const classes = useStyles();
 
@@ -172,7 +171,8 @@ const mapStateToProps = state => {
     classroomId: state.userReducer.classroom
       ? state.userReducer.classroom.id
       : null,
-    token: state.authReducer.token
+    token: state.authReducer.token,
+    isRestricted: state.userReducer.isRestricted
   };
 };
 

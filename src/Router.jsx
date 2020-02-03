@@ -34,6 +34,21 @@ function AuthRouteModerator({ isAuth, role, component: Component, ...rest }) {
   );
 }
 
+function AuthRouteAdmin({ isAuth, role, component: Component, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        return isAuth & (role === "ROLE_ADMIN") ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/" />
+        );
+      }}
+    />
+  );
+}
+
 function Router({ isAuth, roles }) {
   const userRole = roles[0];
 
@@ -49,7 +64,12 @@ function Router({ isAuth, roles }) {
           component={ModeratorPage}
         />
         <Route path="/settings" component={SettingsPage} />
-        <Route path="/admin" component={AdminPage} />
+        <AuthRouteAdmin
+          isAuth={isAuth}
+          path="/admin"
+          role={userRole}
+          component={AdminPage}
+        />
       </Switch>
     </BrowserRouter>
   );

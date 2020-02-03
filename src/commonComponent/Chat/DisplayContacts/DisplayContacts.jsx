@@ -19,7 +19,6 @@ class DisplayContacts extends Component {
   }
 
   componentWillMount() {
-    console.log("Display contacts mounts");
     this.fetchUsers(1, []);
     setTimeout(this.retrieveOnlineUsers(this.props.connectedUsers), 500);
   }
@@ -43,11 +42,11 @@ class DisplayContacts extends Component {
       return { ...usr, isOnline };
     });
     const filtereduUsers =
-      userInfos.isRestricted && userInfos.role[0] === "ROLE_STUDENT"
+      userInfos.isRestricted && userInfos.roles[0] === "ROLE_STUDENT"
         ? updatedUsers.filter(
             user =>
-              user.role[0] !== "ROLE_STUDENT" ||
-              user.classroom.id === userInfos.classroom.id
+              user.roles[0] !== "ROLE_STUDENT" ||
+              user.classRoom.id === userInfos.classroom.id
           )
         : updatedUsers;
 

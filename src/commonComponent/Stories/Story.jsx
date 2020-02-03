@@ -28,7 +28,8 @@ function Storie({
   image,
   token,
   userId,
-  userIdStory
+  userIdStory,
+  handleSnackBar
 }) {
   const [open, setOpen] = useState(false);
   const [isAlert, setIsAlert] = useState(false);
@@ -77,7 +78,7 @@ function Storie({
       });
   };
 
-  const handleIsMyStory = () => {
+  const stopDisplayMyStory = () => {
     axios
       .put(
         `${apiUrl}/stories/${storyId}`,
@@ -87,10 +88,10 @@ function Storie({
         config
       )
       .then(res => {
-        console.log(res);
+        handleSnackBar("Ta story a bien été supprimée", "success");
       })
       .catch(err => {
-        console.log(err.message);
+        handleSnackBar("Il y a eu un problème", "error");
         throw err;
       });
   };
@@ -137,7 +138,9 @@ function Storie({
                   action={
                     <>
                       <IconButton aria-label="settings">
-                        {isMyStory && <DeleteIcon onClick={handleIsMyStory} />}
+                        {isMyStory && (
+                          <DeleteIcon onClick={stopDisplayMyStory} />
+                        )}
                       </IconButton>
                       <IconButton aria-label="settings">
                         {isAlert ? (

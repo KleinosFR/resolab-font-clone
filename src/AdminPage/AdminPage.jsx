@@ -1,72 +1,178 @@
-import React from "react";
-import { HydraAdmin, ResourceGuesser } from "@api-platform/admin";
-import parseHydraDocumentation from "@api-platform/api-doc-parser/lib/hydra/parseHydraDocumentation";
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button, Tabs, Tab, Typography, Box } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
 
-import {
-  dataProvider as baseDataProvider,
-  fetchHydra as baseFetchHydra
-} from "@api-platform/admin";
+import CustomizedSnackbars from "../commonComponent/SnackBar";
+import Layout from "../Layout/Layout";
+import TabPanel from "./TabPanel";
+import CreateUser from "./Users/CreateUser";
+import UserTable from "./Users/UserTable";
+import SchoolTable from "./Schools/SchoolTable";
+import ClassroomTable from "./Classrooms/ClassroomTable";
 
-import { Redirect } from "react-router-dom";
+const apiUrl = process.env.REACT_APP_API_URL;
 
-function AdminPage() {
-  const entrypoint = "http://localhost:8089/api";
+function a11yProps(index) {
+  return {
+    id: `vertical-tab-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`
+  };
+}
 
-  const fetchHeaders = {
-    Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-    "Content-Type": "application/json",
-    Accept: "application/json"
+const useStyles = makeStyles(theme => ({
+  tabWrapper: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    marginTop: "143px"
+  },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    minWidth: "150px",
+    overflow: "visible"
+  }
+}));
+
+function AdminPage({ token }) {
+  const [allUsers, setAllUsers] = useState({});
+  const [allSchools, setAllSchools] = useState({});
+  const [allClassrooms, setAllClassrooms] = useState({});
+
+  const [snackBarNotification, setSnackBarNotification] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackBarColor, setSnackBarColor] = useState("success");
+
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
   };
 
-  const fetchHydra = (url, options = {}) =>
-    baseFetchHydra(url, {
-      ...options,
-      headers: new Headers(fetchHeaders)
-    });
+  const fetchRessource = async (
+    page,
+    previousRessourceData,
+    ressource,
+    setData
+  ) => {
+    // retreiving all ressources from database until it finds an empty page
+    const nextPage = page + 1;
+    let ressourceData = previousRessourceData;
+    await axios
+      .get(`${apiUrl}${ressource}?page=${page}`, config)
+      .then(async res => {
+        const fetchedRessourceData = res.data;
+        ressourceData = ressourceData.concat(fetchedRessourceData);
+        await axios
+          .get(`${apiUrl}${ressource}?page=${nextPage}`, config)
+          .then(res => {
+            if (res.data.length !== 0) {
+              fetchRessource(nextPage, ressourceData, ressource);
+            } else {
+              setData(ressourceData);
+            }
+          });
+      })
 
-  // const apiDocumentationParser = entrypoint =>
-  //     parseHydraDocumentation(entrypoint, {
-  //         headers: new Headers(fetchHeaders)
-  //     }).then(
-  //         ({ api }) => ({ api }),
+      .catch(err => console.log("error", err));
+  };
 
-  //         result => {
-  //             switch (result.status) {
-  //                 case 401:
-  //                     return Promise.resolve({
-  //                         api: result.api,
+  const history = useHistory();
 
-  //                         customRoutes: [
-  //                             {
-  //                                 props: {
-  //                                     path: "/",
+  const fetchAll = () => {
+    fetchRessource(1, [], "/schools", setAllSchools);
+    fetchRessource(1, [], "/users", setAllUsers);
+    fetchRessource(1, [], "/class_rooms", setAllClassrooms);
+  };
 
-  //                                     render: () => <Redirect to={`/login`} />
-  //                                 }
-  //                             }
-  //                         ]
-  //                     });
+  useEffect(() => {
+    // retrieving all the data
+    fetchAll();
+  }, []);
+  const handleExit = () => {
+    history.push("/moderator");
+  };
 
-  //                 default:
-  //                     return Promise.reject(result);
-  //             }
-  //         }
-  //     );
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
 
-  // const dataProvider = baseDataProvider(
-  //     entrypoint,
-  //     fetchHydra,
-  //     apiDocumentationParser
-  // );
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleSnackBar = (message, color) => {
+    setSnackBarNotification(true);
+    setSnackbarMessage(message);
+    color ? setSnackBarColor(color) : setSnackBarColor("success");
+  };
 
   return (
-    <HydraAdmin entrypoint={entrypoint}>
-      <ResourceGuesser name="users" />
-      <ResourceGuesser name="alerts" />
-      <ResourceGuesser name="classrooms" />
-    </HydraAdmin>
+    <Layout>
+      <div className={classes.tabWrapper}>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={value}
+          onChange={handleChange}
+          className={classes.tabs}
+        >
+          <Tab label="Créer un utilisateur" {...a11yProps(0)} />
+          <Tab label="Gérer les utilisateurs" {...a11yProps(1)} />
+          <Tab label="Gérer les établissements" {...a11yProps(2)} />
+          <Tab label="Gérer les classes" {...a11yProps(3)} />
+          <Button onClick={() => handleExit()}>Retour</Button>
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <CreateUser
+            schools={allSchools}
+            classrooms={allClassrooms}
+            handleSnackBar={handleSnackBar}
+          />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <UserTable
+            users={allUsers}
+            token={token}
+            refresh={() => fetchAll()}
+            schools={allSchools}
+            classrooms={allClassrooms}
+            handleSnackBar={handleSnackBar}
+          />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <SchoolTable
+            token={token}
+            refresh={() => fetchAll()}
+            schools={allSchools}
+            handleSnackBar={handleSnackBar}
+          />
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <ClassroomTable
+            token={token}
+            refresh={() => fetchAll()}
+            schools={allSchools}
+            classrooms={allClassrooms}
+            handleSnackBar={handleSnackBar}
+          />
+        </TabPanel>
+        <CustomizedSnackbars
+          open={snackBarNotification}
+          setOpen={setSnackBarNotification}
+          handleSnackBar={handleSnackBar}
+          message={snackbarMessage}
+          color={snackBarColor}
+        />{" "}
+      </div>
+    </Layout>
   );
 }
 
-export default AdminPage;
+const mapStateToProps = state => {
+  return { token: state.authReducer.token };
+};
+
+export default connect(mapStateToProps)(AdminPage);

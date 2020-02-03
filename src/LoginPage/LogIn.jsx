@@ -72,7 +72,6 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
         });
         storeToken(postRes.data.token);
         const decodedToken = decode(postRes.data.token);
-        console.log(decodedToken);
 
         const getRes = await Axios.get(`${apiUrl}/users/${decodedToken.id}`, {
           headers: {
@@ -81,7 +80,6 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
           }
         });
         const userData = getRes.data;
-        console.log(userData);
         setUserRole(decodedToken.roles);
         setUser(userData);
         setIsLoading(false);

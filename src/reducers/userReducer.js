@@ -22,7 +22,7 @@ const userReducer = (state = initialUserState, action) => {
         lastname: action.payload.lastname,
         roles: action.payload.roles,
         classroom: action.payload.classRoom,
-        isRestricted: action.payload.restricted
+        isRestricted: action.payload.isRestricted
       };
     case LOG_OUT:
       return initialUserState;

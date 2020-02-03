@@ -30,7 +30,7 @@ class ChatWrapper extends Component {
     const nickname = this.props.username;
     const userId = this.props.userId;
     socket.on("connect", () => {
-      console.log("Connected");
+      console.log("Connected to chat");
     });
     this.setState({ socket });
     sessionStorage.setItem("socket", socket);

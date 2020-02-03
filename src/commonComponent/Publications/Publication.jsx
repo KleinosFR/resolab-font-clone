@@ -91,9 +91,9 @@ function Post({
         )
         .then(res => {
           setInputValue("");
-          return handleSnackBar("Ton commentaire a bien été posté");
+          return handleSnackBar("Ton commentaire a bien été posté", "success");
         })
-        .catch(err => console.log(err));
+        .catch(err => handleSnackBar("Il y a eu un problème", "error"));
     }
   };
 
@@ -173,7 +173,7 @@ function Post({
     }
   };
 
-  const handleIsMyPublication = () => {
+  const stopDisplayMyPublication = () => {
     axios
       .put(
         `${apiUrl}/posts/${postId}`,
@@ -183,10 +183,10 @@ function Post({
         config
       )
       .then(res => {
-        console.log(res);
+        handleSnackBar("Ta publication a bien été supprimée", "success");
       })
       .catch(err => {
-        console.log(err.message);
+        handleSnackBar("Il y a eu un problème", "error");
         throw err;
       });
   };
@@ -209,7 +209,7 @@ function Post({
             <>
               <IconButton aria-label="settings">
                 {isMyPublication && (
-                  <DeleteIcon onClick={handleIsMyPublication} />
+                  <DeleteIcon onClick={stopDisplayMyPublication} />
                 )}
               </IconButton>
               <IconButton aria-label="settings">
