@@ -15,22 +15,15 @@ import { useEffect } from "react";
 
 const apiUrl = process.env.REACT_APP_MEDIA_URL;
 
-function CreateUser({ token, schools, classrooms, handleSnackBar }) {
+function CreateUser({ token, schools, classrooms, handleSnackBar, refresh }) {
   const [payload, setPayload] = useState({
     _username: "",
-    _password: "",
-    firstname: "",
-    lastname: "",
-    gender: "male",
-    roles: ["ROLE_STUDENT", "ROLE_USER"],
-    birthday: "2010-01-01"
+    _password: ""
   });
   const [userSchool, setUserSchool] = useState(0);
   const [userClassroom, setUserClassroom] = useState(0);
 
-  const [allschools, setAllschools] = useState([
-    { id: 0, name: "wild code school" }
-  ]);
+  const [allschools, setAllschools] = useState([{}]);
 
   const config = {
     headers: {
@@ -43,12 +36,20 @@ function CreateUser({ token, schools, classrooms, handleSnackBar }) {
     setAllschools(schools);
   }, [schools]);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    axios
+    await axios
       .post(`${apiUrl}/register`, payload, config)
-      .then(res => handleSnackBar("L'utilisateur a été créé", "success"))
-      .catch(err => handleSnackBar("Il y a eu un problème", "error"));
+      .then(res => {
+        handleSnackBar("L'utilisateur a été créé", "success");
+        refresh();
+      })
+      .catch(err =>
+        handleSnackBar(
+          "Il y a eu un problème, l'utilisateur existe peut-être déjà",
+          "error"
+        )
+      );
   };
 
   return (
@@ -79,99 +80,6 @@ function CreateUser({ token, schools, classrooms, handleSnackBar }) {
               })
             }
           />
-        </Grid>
-        <Grid>
-          <TextField
-            label="Nom"
-            value={payload.lastname}
-            onChange={e => setPayload({ ...payload, lastname: e.target.value })}
-          />
-        </Grid>
-        <Grid>
-          <TextField
-            label="Prénom"
-            value={payload.firstname}
-            onChange={e =>
-              setPayload({
-                ...payload,
-                firstname: e.target.value
-              })
-            }
-          />
-        </Grid>
-        <Grid>
-          <InputLabel id="userGender">Sexe</InputLabel>
-          <Select
-            labelId="userGender"
-            value={payload.gender}
-            onChange={e => setPayload({ ...payload, gender: e.target.value })}
-          >
-            <MenuItem value={"male"}>Homme</MenuItem>
-            <MenuItem value={"female"}>Femme</MenuItem>
-          </Select>
-        </Grid>
-        <Grid>
-          <InputLabel id="userRole">Rôle</InputLabel>
-          <Select
-            labelId="userRole"
-            value={payload.roles}
-            onChange={e => setPayload({ ...payload, roles: e.target.value })}
-          >
-            <MenuItem value={["ROLE_STUDENT", "ROLE_USER"]}>
-              Utilisateur
-            </MenuItem>
-            <MenuItem value={["ROLE_MODERATOR", "ROLE_USER"]}>
-              Modérateur
-            </MenuItem>
-            <MenuItem value={["ROLE_ADMIN", "ROLE_USER"]}>
-              Administrateur
-            </MenuItem>
-          </Select>
-        </Grid>
-        <Grid>
-          <TextField
-            label="Date de naissance"
-            type="date"
-            defaultValue="2010-01-01"
-            onChange
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-        </Grid>
-        <Grid>
-          <InputLabel id="usersSchool">Etablissement</InputLabel>
-          <Select
-            labelId="usersSchool"
-            value={userSchool}
-            onChange={e => setUserSchool(e.target.value)}
-          >
-            {/* {allschools &&
-                            allschools.map(school => {
-                                return (
-                                    <MenuItem value={school.id}>
-                                        {school.name}
-                                    </MenuItem>
-                                );
-                            })} */}
-          </Select>
-        </Grid>
-        <Grid>
-          <InputLabel id="usersClassroom">Etablissement</InputLabel>
-          <Select
-            labelId="usersClassroom"
-            value={userSchool}
-            onChange={e => setUserClassroom(e.target.value)}
-          >
-            {/* {classrooms &&
-                            classrooms.map(school => {
-                                return (
-                                    <MenuItem value={school.id}>
-                                        {school.name}
-                                    </MenuItem>
-                                );
-                            })} */}
-          </Select>
         </Grid>
 
         <Grid>

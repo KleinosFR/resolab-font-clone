@@ -130,6 +130,7 @@ function AdminPage({ token }) {
             schools={allSchools}
             classrooms={allClassrooms}
             handleSnackBar={handleSnackBar}
+            refresh={() => fetchAll()}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>

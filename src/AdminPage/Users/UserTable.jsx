@@ -106,6 +106,11 @@ function UserTable({
             title: "Utilisateur restreint",
             field: "isRestricted",
             type: "boolean"
+          },
+          {
+            title: "Accès autorisé",
+            field: "isActive",
+            type: "boolean"
           }
         ]}
         data={users}
@@ -113,12 +118,6 @@ function UserTable({
         editable={{
           isEditable: rowData => rowData.name === "a", // only name(a) rows would be editable
           isDeletable: rowData => rowData.name === "b", // only name(a) rows would be deletable
-          onRowAdd: newData =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-                resolve();
-              }, 1000);
-            }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               let payload = { ...newData };
@@ -171,7 +170,7 @@ function UserTable({
               cancelTooltip: "Annuler",
               saveTooltip: "Confirmer",
               deleteText:
-                "Etes-vous sur de vouloir supprimer cet enregistrement ?"
+                "Etes-vous certain de vouloir supprimer cet utilisateur ? Tous ses contenus seront supprimés"
             },
             addTooltip: "Ajouter",
             deleteTooltip: "Supprimer",
