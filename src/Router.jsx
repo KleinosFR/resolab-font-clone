@@ -6,6 +6,7 @@ import LoginPage from "./LoginPage/LoginPage";
 import UserPage from "./UserPage/UserPage";
 import ModeratorPage from "./ModeratorPage/ModeratorPage";
 import SettingsPage from "./SettingsPage/SettingsPage";
+import AdminPage from "./AdminPage/AdminPage";
 
 function AuthRouteUser({ isAuth, component: Component, ...rest }) {
   return (
@@ -23,7 +24,22 @@ function AuthRouteModerator({ isAuth, role, component: Component, ...rest }) {
     <Route
       {...rest}
       render={props => {
-        return isAuth & (role === "ROLE_MODERATOR") ? (
+        return isAuth & (role === "ROLE_MODERATOR" || role === "ROLE_ADMIN") ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/" />
+        );
+      }}
+    />
+  );
+}
+
+function AuthRouteAdmin({ isAuth, role, component: Component, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        return isAuth & (role === "ROLE_ADMIN") ? (
           <Component {...props} />
         ) : (
           <Redirect to="/" />
@@ -48,6 +64,12 @@ function Router({ isAuth, roles }) {
           component={ModeratorPage}
         />
         <Route path="/settings" component={SettingsPage} />
+        <AuthRouteAdmin
+          isAuth={isAuth}
+          path="/admin"
+          role={userRole}
+          component={AdminPage}
+        />
       </Switch>
     </BrowserRouter>
   );

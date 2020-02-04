@@ -4,7 +4,7 @@ import React from "react";
 import Router from "./Router";
 
 function App() {
-  return <Router />;
+  return <Router style={{ width: "100vw" }} />;
 }
 
 export default App;

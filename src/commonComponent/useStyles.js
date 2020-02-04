@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import zIndex from "@material-ui/core/styles/zIndex";
 
 export const useStyles = makeStyles(theme => ({
   card: {
@@ -8,7 +7,8 @@ export const useStyles = makeStyles(theme => ({
   },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%", // 16:9
+    backgroundSize: "contain"
   },
   expand: {
     transform: "rotate(0deg)",
@@ -57,7 +57,7 @@ export const useStyles = makeStyles(theme => ({
     }
   },
   sidebarCard: {
-    minWidth: 350,
+    maxWidth: 350,
     maxHeight: 350,
     margin: 8
   },
@@ -69,21 +69,36 @@ export const useStyles = makeStyles(theme => ({
     marginLeft: "8px"
   },
   chatWindowVisible: {
-    width: "100vw",
-    maxHeight: "40vh",
+    width: "40vw",
+    height: "45vh",
     position: "fixed",
-    bottom: "0px",
-    left: "0px",
+    bottom: "10px",
+    left: "10px",
     zIndex: "100",
+    backgroundColor: "rgba(255,255,255,1)",
     visibility: "visible"
   },
   chatWindowNoVisible: {
-    width: "100vw",
+    width: "40vw",
     maxHeight: "40vh",
     position: "fixed",
     bottom: "0px",
     left: "0px",
     zIndex: "100",
     visibility: "hidden"
+  },
+  footerModal: {
+    id: "transition-modal-title",
+    textAlign: "center",
+    p: 4,
+    fontSize: 24,
+    fontWeight: "fontWeightBold",
+    display: "flex",
+    flexDirection: "row"
+  },
+
+  dividerAlert: {
+    marginTop: 16,
+    marginBottom: 16
   }
 }));

@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import Button from "@material-ui/core/Button";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ErrorIcon from "@material-ui/icons/Error";
 import CloseIcon from "@material-ui/icons/Close";
-import { amber, green } from "@material-ui/core/colors";
+import { red, green } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
@@ -12,12 +13,16 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import { makeStyles } from "@material-ui/core/styles";
 
 const variantIcon = {
-  success: CheckCircleIcon
+  success: CheckCircleIcon,
+  error: ErrorIcon
 };
 
 const useStyles1 = makeStyles(theme => ({
   success: {
     backgroundColor: green[600]
+  },
+  error: {
+    backgroundColor: red[600]
   },
 
   icon: {
@@ -76,7 +81,7 @@ const useStyles2 = makeStyles(theme => ({
   }
 }));
 
-export default function CustomizedSnackbars({ open, setOpen, message }) {
+export default function CustomizedSnackbars({ open, setOpen, message, color }) {
   const classes = useStyles2();
 
   const handleClose = (event, reason) => {
@@ -99,7 +104,7 @@ export default function CustomizedSnackbars({ open, setOpen, message }) {
       >
         <MySnackbarContentWrapper
           onClose={handleClose}
-          variant="success"
+          variant={color ? color : "succes"}
           message={message}
         />
       </Snackbar>

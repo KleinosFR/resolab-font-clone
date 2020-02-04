@@ -1,29 +1,28 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 
-import logo from "../Assets/pictae.png";
+import logo from "../Assets/resolab-simple-white.png";
 import { Typography } from "@material-ui/core";
 
 export default function HeaderSite() {
   return (
-    <>
-      <Grid
-        container
-        item
-        spacing={2}
-        justify="space-evenly"
-        direction="row"
-        alignItems="center"
+    <Grid item xs={9}>
+      <img
+        src={logo}
+        width="170px"
+        alt="RésoLab-logo"
+        style={{ padding: "8px" }}
+      />
+      <h1
+        style={{
+          fontSize: "12px",
+          marginTop: "-20px",
+          padding: "8px",
+          fontFamily: "Roboto"
+        }}
       >
-        <Grid item xs={2}>
-          <img src={logo} width="50" spacing={2} justify="center" />
-        </Grid>
-        <Grid item xs={10} flex-direction="flex-start">
-          <Typography>
-            <h1>Résolab</h1>
-          </Typography>
-        </Grid>
-      </Grid>
-    </>
+        Le réseau social pour expérimenter
+      </h1>
+    </Grid>
   );
 }

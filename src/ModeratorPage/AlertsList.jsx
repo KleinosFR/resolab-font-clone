@@ -1,36 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { List } from "@material-ui/core";
-import axios from "axios";
+import { orderBy, filter } from "lodash";
 
 import Alert from "./Alert";
+import { useRecursiveGet } from "../hooks/useApi";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
-function AlertsList({ classes }) {
-  const [alerts, setAlerts] = useState([]);
+function AlertsList({ classes, setAlertCount }) {
+  const { datas, request } = useRecursiveGet("/alerts", 10000);
+  const [orderedAlertsByTakenInCharge, setOrderedAlerts] = useState([]);
 
   useEffect(() => {
-    const fetchDatas = async () => {
-      const res = await axios.get(`${apiUrl}/alerts`, {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          Accept: "application/json"
-        }
-      });
-      setAlerts(res.data);
-      setTimeout(() => {
-        fetchDatas();
-      }, 10000);
-    };
-
-    fetchDatas();
+    request();
+    const orderedAlerts = datas && orderBy(datas, ["takenCare"], ["asc"]);
+    setOrderedAlerts(orderedAlerts);
   }, []);
+
+  useEffect(() => {
+    const unresolvedAlerts = datas && filter(datas, ["resolved", false]);
+    datas && setAlertCount(unresolvedAlerts.length);
+    const orderedAlerts = datas && orderBy(datas, ["takenCare"], ["asc"]);
+    setOrderedAlerts(orderedAlerts);
+  }, [datas]);
 
   return (
     <List>
-      {alerts.reverse().map(alert => (
-        <>{!alert.resolved && <Alert alert={alert} classes={classes} />}</>
-      ))}
+      {orderedAlertsByTakenInCharge &&
+        orderedAlertsByTakenInCharge.map(alert => (
+          <>{!alert.resolved && <Alert alert={alert} classes={classes} />}</>
+        ))}
     </List>
   );
 }

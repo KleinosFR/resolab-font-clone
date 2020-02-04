@@ -1,7 +1,8 @@
 /* Ripple effect */
-.footer {
-  text-align: center;
-}
+/* .footer {
+    text-align: center;
+    position: fixed;
+} */
 .ripple {
   background-color: #47a7f5;
   background-position: center;

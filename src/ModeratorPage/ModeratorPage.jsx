@@ -1,29 +1,33 @@
 import React, { useState } from "react";
-import { Grid, Box, Snackbar } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import Layout from "../Layout/Layout";
-import PostArticle from "../commonComponent/PostArticle";
-import Publications from "../commonComponent/Publications";
-import DisplayStories from "../commonComponent/DisplayStories";
+import PostArticle from "../commonComponent/Publications/PostArticle";
+import DisplayPublications from "../commonComponent/Publications/DisplayPublications";
+import DisplayStories from "../commonComponent/Stories/DisplayStories";
 import Sidebar from "../commonComponent/Sidebar";
 import ModerationComponent from "./ModerationComponent";
 
 import { useStyles } from "../commonComponent/useStyles";
 
+import CustomizedSnackbars from "../commonComponent/SnackBar";
+
 function ModeratorPage({ openAlert }) {
   const classes = useStyles();
   const [snackBarNotification, setSnackBarNotification] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackBarColor, setSnackBarColor] = useState("success");
 
-  const handleSnackBar = message => {
+  const handleSnackBar = (message, color) => {
     setSnackBarNotification(true);
     setSnackbarMessage(message);
+    color ? setSnackBarColor(color) : setSnackBarColor("succes");
   };
 
   return (
     <Layout>
-      <Grid container style={{ marginTop: "80px" }} spacing={3}>
+      <Grid container style={{ marginTop: "80px", width: "100%" }} spacing={3}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} classes={classes} />
         </Grid>
@@ -48,19 +52,27 @@ function ModeratorPage({ openAlert }) {
           {openAlert.resolved === false ? (
             <ModerationComponent classes={classes} />
           ) : (
-            <Publications handleSnackBar={handleSnackBar} />
+            <DisplayPublications handleSnackBar={handleSnackBar} />
           )}
         </Grid>
-        <Grid container item xs={3} xl={3} justify="center">
+        <Grid
+          container
+          item
+          xs={4}
+          justify="center"
+          alignItems=""
+          style={{ width: "100%" }}
+        >
           <Sidebar classes={classes} />
         </Grid>
       </Grid>
 
-      <Snackbar
+      <CustomizedSnackbars
         open={snackBarNotification}
         setOpen={setSnackBarNotification}
         handleSnackBar={handleSnackBar}
         message={snackbarMessage}
+        color={snackBarColor}
       />
     </Layout>
   );

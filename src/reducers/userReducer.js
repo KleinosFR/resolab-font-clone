@@ -1,4 +1,4 @@
-import { SET_USER, LOG_OUT } from "./actionTypes";
+import { SET_USER, LOG_OUT, NEW_MESSAGE } from "./actionTypes";
 
 const initialUserState = {
   id: 0,
@@ -7,7 +7,9 @@ const initialUserState = {
   lastname: "",
   roles: [],
   classroom: "",
-  isRestricted: true
+  isRestricted: true,
+  newMessage: false,
+  isActive: false
 };
 
 const userReducer = (state = initialUserState, action) => {
@@ -21,10 +23,16 @@ const userReducer = (state = initialUserState, action) => {
         lastname: action.payload.lastname,
         roles: action.payload.roles,
         classroom: action.payload.classRoom,
-        isRestricted: action.payload.restricted
+        isRestricted: action.payload.isRestricted,
+        isActive: action.payload.isActive
       };
     case LOG_OUT:
       return initialUserState;
+    case NEW_MESSAGE:
+      return {
+        ...state,
+        newMessage: true
+      };
     default:
       return state;
   }

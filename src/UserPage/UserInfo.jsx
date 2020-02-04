@@ -3,21 +3,35 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  Typography
+  Typography,
+  Grid
 } from "@material-ui/core";
 import { Face, ExpandMore } from "@material-ui/icons";
 import { connect } from "react-redux";
-
-import apiCallAuth from "../apiCallAuth";
+import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_MEDIA_URL;
 
-function UserInfo({ classes, username, firstName, lastName, classroom }) {
+function UserInfo({
+  classes,
+  username,
+  firstName,
+  lastname,
+  classroom,
+  token
+}) {
   const [userClassroom, setuserClassroom] = useState("");
 
+  const config = {
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "application/json"
+    }
+  };
+
   useEffect(() => {
-    apiCallAuth
-      .get(`${baseUrl}${classroom}`)
+    axios
+      .get(`${baseUrl}${classroom}`, config)
       .then(res => setuserClassroom(res.data.name));
   });
 
@@ -31,13 +45,17 @@ function UserInfo({ classes, username, firstName, lastName, classroom }) {
       >
         <Face className={classes.sidebarCardHeaderElements} />
         <Typography className={classes.sidebarCardHeaderElements}>
-          {firstName} {lastName}
+          {firstName} {lastname}
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography>
-          {username} <br /> Ta classe : {userClassroom}
-        </Typography>
+        <Grid>
+          <Typography>{username}</Typography>
+          <Typography>
+            Ton établissement scolaire : {classroom.school.name}
+          </Typography>
+          <Typography>Ta classe : {classroom.name}</Typography>
+        </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
@@ -47,8 +65,9 @@ const mapStateToProps = state => {
   return {
     username: state.userReducer.username,
     firstName: state.userReducer.firstname,
-    lastName: state.userReducer.lastName,
-    classroom: state.userReducer.classroom
+    lastname: state.userReducer.lastname,
+    classroom: state.userReducer.classroom,
+    token: state.authReducer.token
   };
 };
 

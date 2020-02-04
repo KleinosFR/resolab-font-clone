@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Badge,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
@@ -13,6 +14,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AlertsList from "./AlertsList";
 
 function Alerts({ classes }) {
+  const [alertCount, setAlertCount] = useState(0);
   return (
     <ExpansionPanel className={classes.sidebarCard}>
       <ExpansionPanelSummary
@@ -23,8 +25,14 @@ function Alerts({ classes }) {
       >
         <NotificationImportant className={classes.sidebarCardHeaderElements} />
         <Typography className={classes.sidebarCardHeaderElements}>
-          Alerts
+          Alertes
         </Typography>
+        <Badge
+          color="secondary"
+          badgeContent={alertCount}
+          showZero
+          style={{ flexDirection: "row", alignItems: "center" }}
+        ></Badge>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Box
@@ -36,7 +44,7 @@ function Alerts({ classes }) {
           }}
         >
           <Grid container direction="column" wrap="nowrap">
-            <AlertsList classes={classes} />
+            <AlertsList classes={classes} setAlertCount={setAlertCount} />
           </Grid>
         </Box>
       </ExpansionPanelDetails>

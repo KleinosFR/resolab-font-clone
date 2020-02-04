@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, CircularProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 function Loader({ isLoading }) {
   return (

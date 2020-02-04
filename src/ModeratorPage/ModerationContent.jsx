@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography, CardMedia } from "@material-ui/core";
+import { connect } from "react-redux";
 
-function ModerationContent({ classes, openAlert }) {
+import DisplayCommentsPostsAlerts from "./DisplayCommentsPostsAlerts";
+
+function ModerationContent({ classes, openAlert, token }) {
   if (openAlert.post) {
     return (
       <>
@@ -20,15 +23,12 @@ function ModerationContent({ classes, openAlert }) {
   }
   if (openAlert.comment) {
     return (
-      <>
-        <Typography>
-          {openAlert.user.username} a lancé une alerte sur le commentaire de{" "}
-          {openAlert.comment.user.username} :
-        </Typography>
-
-        <Typography>"{openAlert.comment.content}"</Typography>
-        <Typography>{openAlert.comment.createdAt}</Typography>
-      </>
+      <DisplayCommentsPostsAlerts
+        openAlert={openAlert}
+        comment={openAlert.comment}
+        classes={classes}
+        token={token}
+      />
     );
   }
   if (openAlert.story) {
@@ -40,7 +40,10 @@ function ModerationContent({ classes, openAlert }) {
         </Typography>
 
         {openAlert.story.image && (
-          <CardMedia className={classes.media} image={openAlert.story.image} />
+          <CardMedia
+            className={classes.media}
+            image={`http://localhost:8089/media/${openAlert.story.image.filePath}`}
+          />
         )}
         <div className="separation-post-comment">
           <Typography>{openAlert.story.date}</Typography>
@@ -58,4 +61,11 @@ function ModerationContent({ classes, openAlert }) {
   }
 }
 
-export default ModerationContent;
+const mapStateToProps = state => {
+  return {
+    userId: state.userReducer.id,
+    token: state.authReducer.token
+  };
+};
+
+export default connect(mapStateToProps)(ModerationContent);
