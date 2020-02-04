@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import {
@@ -140,18 +140,8 @@ function ModerationComponent({
         config
       )
       .then(res => {
-        console.log(res);
-        axios
-          .get(`${apiUrl}/alerts/${openAlert.id}`, config)
-          .then(res => {
-            const updatedAlert = res.data;
-            console.log(updatedAlert);
-            setAlert(updatedAlert);
-          })
-          .catch(err => {
-            console.log(err.message);
-            throw err;
-          });
+        const updatedAlert = res.data;
+        setAlert(updatedAlert);
       })
       .catch(err => console.log(err));
     setIsTakenInCharge(true);
@@ -179,8 +169,7 @@ function ModerationComponent({
   return (
     <Card
       className={classes.card}
-      style={{ width: "45vw" }}
-      style={{ textAlign: "center" }}
+      style={{ width: "45vw", textAlign: "center" }}
     >
       <CardHeader
         avatar={

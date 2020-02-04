@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -14,7 +14,10 @@ export function useGet(resource) {
     setLoading(true);
     try {
       const res = await axios.get(`${apiUrl}${resource}`, {
-        headers: { Authorization: "Bearer " + jwt, Accept: "application/json" }
+        headers: {
+          Authorization: "Bearer " + jwt,
+          Accept: "application/json"
+        }
       });
       setDatas(res.data);
     } catch (err) {
@@ -43,7 +46,10 @@ export function useRecursiveGet(resource, delay) {
     setLoading(true);
     try {
       const res = await axios.get(`${apiUrl}${resource}`, {
-        headers: { Authorization: "Bearer " + jwt, Accept: "application/json" }
+        headers: {
+          Authorization: "Bearer " + jwt,
+          Accept: "application/json"
+        }
       });
       setDatas(res.data);
     } catch (err) {

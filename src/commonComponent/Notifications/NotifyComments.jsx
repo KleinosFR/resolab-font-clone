@@ -72,11 +72,13 @@ function NotifyComments({ userId, setCount, token }) {
     <List>
       {commentsOnUserMessages.length < 5
         ? commentsOnUserMessages.map(comment => (
-            <CommentNotification comment={comment} />
+            <CommentNotification key={comment.id} comment={comment} />
           ))
         : commentsOnUserMessages
             .splice(0, 5)
-            .map(comment => <CommentNotification comment={comment} />)}
+            .map(comment => (
+              <CommentNotification key={comment.id} comment={comment} />
+            ))}
     </List>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Box, Snackbar } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import Layout from "../Layout/Layout";

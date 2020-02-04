@@ -11,9 +11,7 @@ import Fade from "@material-ui/core/Fade";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 
-import gitlogo from "../Assets/github-gradient.png";
-import linkedinlogo from "../Assets/linkedin-gradient.png";
-import DeveloperInfo from "../commonComponent/DeveloperInfo";
+import DeveloperInfo from "./DeveloperInfo";
 
 import Stef from "../Assets/Stef.jpg";
 import clara from "../Assets/clara.jpg";
@@ -64,30 +62,35 @@ function StickyFooter({ isAuth, link }) {
   const [open, setOpen] = useState(false);
   const [developers] = useState([
     {
+      id: 1,
       name: "Stéphane Lavaud",
       linkedin: "https://www.linkedin.com/in/stephane-lavaud-webdev/",
       github: "https://github.com/KleinosFR",
       picture: Stef
     },
     {
+      id: 2,
       name: "Clara Desperben",
       linkedin: "https://www.linkedin.com/in/clara-desperben/",
       github: "https://github.com/clarade",
       picture: clara
     },
     {
+      id: 3,
       name: "Angélique Wons",
       linkedin: "https://www.linkedin.com/in/ang%C3%A9lique-wons/",
       github: "https://github.com/angelique-w",
       picture: angelique
     },
     {
+      id: 4,
       name: "Monia Polus",
       linkedin: "https://www.linkedin.com/in/monia-polus/",
       github: "https://github.com/Monia64",
       picture: photomonia
     },
     {
+      id: 5,
       name: "Anne-Claire Nanot",
       linkedin: "https://www.linkedin.com/in/anne-claire-nanot/",
       github: "https://github.com/anneclaire64",
@@ -117,7 +120,7 @@ function StickyFooter({ isAuth, link }) {
                     className="footer"
                     onClick={handleOpenModal}
                   >
-                    Made with <Favorite color="Secondary" fontSize="small" /> by
+                    Made with <Favorite color="secondary" fontSize="small" /> by
                     Wild Code School Biarritz
                   </Typography>
                 </Grid>
@@ -133,7 +136,7 @@ function StickyFooter({ isAuth, link }) {
                     >
                       {" "}
                       Hébergé
-                      <House color="Primary" fontSize="small" style={{}} /> par
+                      <House color="primary" fontSize="small" style={{}} /> par
                       Aditu
                     </a>
                   </Typography>
@@ -161,7 +164,7 @@ function StickyFooter({ isAuth, link }) {
                   alignItems="center"
                 >
                   {developers.map(dev => {
-                    return <DeveloperInfo {...dev} />;
+                    return <DeveloperInfo key={dev.id} {...dev} />;
                   })}
                 </Grid>
               </Fade>

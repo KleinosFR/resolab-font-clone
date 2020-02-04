@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Grid, Avatar } from "@material-ui/core";
 import Github from "../Assets/github-gradient.png";
 import Linkedin from "../Assets/linkedin-gradient.png";
-import SocialLink from "./SocialLink";
+import SocialLink from "../commonComponent/SocialLink";
 
 function DeveloperInfo({ name, linkedin, github, picture }) {
   return (

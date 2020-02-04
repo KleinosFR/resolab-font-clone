@@ -66,9 +66,9 @@ function UserTable({
       <MaterialTable
         columns={[
           { title: "Utilisateur", field: "username" },
-          { title: "Nom", field: "firstname" },
+          { title: "Prénom", field: "firstname" },
           {
-            title: "Prénom",
+            title: "Nom",
             field: "lastname"
           },
           {

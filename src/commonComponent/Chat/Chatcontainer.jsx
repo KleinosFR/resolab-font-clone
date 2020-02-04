@@ -12,7 +12,6 @@ import {
   USER_DISCONNECTED
 } from "../../utils/Events";
 import { values } from "lodash";
-import { useSelector } from "react-redux";
 import { setConnectedUsers } from "../../reducers/actions";
 
 class ChatContainer extends Component {

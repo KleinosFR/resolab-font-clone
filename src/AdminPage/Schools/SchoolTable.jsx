@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MaterialTable from "material-table";
 import axios from "axios";
-import CustomizedSnackbars from "../../commonComponent/SnackBar";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function SchoolTable({ token, refresh, schools, handleSnackBar }) {
-  const [schoolsList, setSchoolsList] = useState({});
-  const [classroomsList, setClassroomsList] = useState({});
-
   const config = {
     headers: {
       Authorization: "Bearer " + token,
@@ -84,7 +80,6 @@ function SchoolTable({ token, refresh, schools, handleSnackBar }) {
               resolve();
             })
         }}
-        options={{ pageSize: "10", pageSizeOptions: [10, 20, 50] }}
         localization={{
           pagination: {
             labelDisplayedRows: "{from}-{to} sur {count}",
