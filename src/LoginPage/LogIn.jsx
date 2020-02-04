@@ -12,11 +12,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { decode } from "jsonwebtoken";
 
 import VoidField from "./VoidField";
 import Loader from "./Loader";
 import DisplayError from "./DisplayError";
-import { decode } from "jsonwebtoken";
+import CustomizedSnackbars from "../commonComponent/SnackBar";
 
 import { storeToken, setUser } from "../reducers/actions";
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function LogIn({ storeToken, setUser, roles, isAuth }) {
+function LogIn({ storeToken, setUser, roles, isAuth, isActive }) {
   const classes = useStyles();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -37,26 +38,40 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [userRole, setUserRole] = useState("");
+  const [isUserActive, setIsUserActive] = useState(true);
+  const [snackBarNotification, setSnackBarNotification] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackBarColor, setSnackBarColor] = useState("success");
 
   let history = useHistory();
 
+  const handleSnackBar = (message, color) => {
+    setSnackBarNotification(true);
+    setSnackbarMessage(message);
+    color ? setSnackBarColor(color) : setSnackBarColor("succes");
+  };
+
   useEffect(() => {
     if (isAuth) {
-      switch (roles[0]) {
-        case "ROLE_STUDENT":
-          history.push("/user");
-          break;
-        case "ROLE_MODERATOR":
-          history.push("/moderator");
-          break;
-        case "ROLE_ADMIN":
-          history.push("/moderator");
-          break;
-        case "ROLE_SUPER_ADMIN":
-          history.push("/moderator");
-          break;
-        default:
-          break;
+      if (isActive) {
+        switch (roles[0]) {
+          case "ROLE_STUDENT":
+            history.push("/user");
+            break;
+          case "ROLE_MODERATOR":
+            history.push("/moderator");
+            break;
+          case "ROLE_ADMIN":
+            history.push("/moderator");
+            break;
+          case "ROLE_SUPER_ADMIN":
+            history.push("/moderator");
+            break;
+          default:
+            break;
+        }
+      } else {
+        handleSnackBar("Ton compte est temporairement bloqué", "error");
       }
     }
   }, [roles]);
@@ -162,6 +177,13 @@ function LogIn({ storeToken, setUser, roles, isAuth }) {
         <DisplayError isError={isError} />
       </Grid>
       <Loader isLoading={isLoading} />
+      <CustomizedSnackbars
+        open={snackBarNotification}
+        setOpen={setSnackBarNotification}
+        handleSnackBar={handleSnackBar}
+        message={snackbarMessage}
+        color={snackBarColor}
+      />
     </>
   );
 }
@@ -176,7 +198,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     isAuth: state.authReducer.isAuth,
-    roles: state.userReducer.roles
+    roles: state.userReducer.roles,
+    isActive: state.userReducer.isActive
   };
 };
 
