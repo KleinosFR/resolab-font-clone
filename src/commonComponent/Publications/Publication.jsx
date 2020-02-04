@@ -207,16 +207,19 @@ function Post({
           }
           action={
             <>
-              <IconButton aria-label="settings">
-                {isMyPublication && (
-                  <DeleteIcon onClick={stopDisplayMyPublication} />
-                )}
-              </IconButton>
-              <IconButton aria-label="settings">
+              {isMyPublication && (
+                <IconButton
+                  aria-label="settings"
+                  onClick={stopDisplayMyPublication}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
+              <IconButton aria-label="settings" onClick={handleClickAlert}>
                 {isAlert ? (
-                  <Warning color="secondary" onClick={handleClickAlert} />
+                  <Warning color="secondary" />
                 ) : (
-                  <Warning color="disabled" onClick={handleClickAlert} />
+                  <Warning color="disabled" />
                 )}
               </IconButton>
             </>
@@ -234,16 +237,20 @@ function Post({
           <IconButton
             aria-label="j'aime cette publication"
             disabled={isButtonDisabled}
+            onClick={handleLike}
           >
             {isLiked ? (
-              <Favorite color="secondary" onClick={handleLike} />
+              <Favorite color="secondary" />
             ) : (
-              <FavoriteBorder color="disabled" onClick={handleLike} />
+              <FavoriteBorder color="disabled" />
             )}
           </IconButton>
           {likesCount}
-          <IconButton aria-label="add to favorites">
-            <ChatBubbleOutline onClick={handleDisplayComments} />
+          <IconButton
+            aria-label="add to favorites"
+            onClick={handleDisplayComments}
+          >
+            <ChatBubbleOutline />
           </IconButton>
           {commentsCount.length}
         </CardActions>

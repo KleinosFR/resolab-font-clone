@@ -26,7 +26,11 @@ function AlertsList({ classes, setAlertCount }) {
     <List>
       {orderedAlertsByTakenInCharge &&
         orderedAlertsByTakenInCharge.map(alert => (
-          <>{!alert.resolved && <Alert alert={alert} classes={classes} />}</>
+          <>
+            {!alert.resolved && (
+              <Alert key={alert.id} alert={alert} classes={classes} />
+            )}
+          </>
         ))}
     </List>
   );

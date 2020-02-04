@@ -184,8 +184,8 @@ function ModerationComponent({
           </Typography>
         }
         action={
-          <IconButton aria-label="settings">
-            <RemoveOutlinedIcon onClick={() => removeAlert()} />
+          <IconButton aria-label="settings" onClick={() => removeAlert()}>
+            <RemoveOutlinedIcon />
           </IconButton>
         }
       />

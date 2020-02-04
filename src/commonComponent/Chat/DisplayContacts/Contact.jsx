@@ -6,7 +6,6 @@ import {
   Card,
   CardHeader,
   Avatar,
-  CardContent,
   IconButton,
   Typography,
   Badge
@@ -15,11 +14,9 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ForumIcon from "@material-ui/icons/Forum";
 import { Warning } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import Messages from "../messages/Messages";
-import MessageInput from "../messages/MessageInput";
 import axios from "axios";
 import { connect } from "react-redux";
-import { orderBy, find, last } from "lodash";
+import { find, last } from "lodash";
 import ChatRouter from "../messages/ChatRouter";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
@@ -198,15 +195,15 @@ function Contact({
           }
           action={
             <>
-              <IconButton aria-label="alert">
+              <IconButton aria-label="alert" onClick={handleClickAlert}>
                 {isAlert ? (
-                  <Warning color="secondary" onClick={handleClickAlert} />
+                  <Warning color="secondary" />
                 ) : (
-                  <Warning color="disabled" onClick={handleClickAlert} />
+                  <Warning color="disabled" />
                 )}
               </IconButton>
-              <IconButton aria-label="alert">
-                <RemoveOutlinedIcon onClick={closeChat} />
+              <IconButton aria-label="alert" onClick={closeChat}>
+                <RemoveOutlinedIcon />
               </IconButton>
             </>
           }
