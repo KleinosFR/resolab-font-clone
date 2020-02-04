@@ -64,7 +64,11 @@ function DisplayPublications({
 
   return (
     <BottomScrollListener onBottom={fetchMorePages}>
-      <Grid direction="column" onContextMenu={e => e.preventDefault()}>
+      <Grid
+        container
+        direction="column"
+        onContextMenu={e => e.preventDefault()}
+      >
         <Grid container spacing={0} align="center" justify="center">
           <Grid item xs="5">
             <Typography>Toutes les publications</Typography>
