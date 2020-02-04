@@ -92,7 +92,6 @@ function Storie({
       })
       .catch(err => {
         handleSnackBar("Il y a eu un problème", "error");
-        throw err;
       });
   };
 
