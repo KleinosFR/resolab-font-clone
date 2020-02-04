@@ -48,13 +48,16 @@ function ChatModerationContent({ openAlert, token }) {
       .then(res => {
         const messages = res.data;
         const updatedMessages = orderBy(messages, ["createdAt"], "asc");
+        console.log(updatedMessages);
         const goal = Date.parse(openAlert.createdAt);
         const nearestOpenAlertDate = findNearestDate(updatedMessages, goal);
         console.log(nearestOpenAlertDate);
         setnearestOpenAlert(nearestOpenAlertDate);
-        const index = updatedMessages.findIndex(
-          el => el.createdAt === nearestOpenAlertDate.createdAt
-        );
+        const index =
+          updatedMessages[1] &&
+          updatedMessages.findIndex(
+            el => el.createdAt === nearestOpenAlertDate.createdAt
+          );
         console.log(index);
         const displayMessages = displayNearestMessages(updatedMessages, index);
         setFetchedMessages(displayMessages);
