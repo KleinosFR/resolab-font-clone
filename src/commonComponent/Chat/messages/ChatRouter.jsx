@@ -21,21 +21,25 @@ function ChatRouter({
 }) {
   const [oldMessages, setOldMessages] = useState([]);
 
-  useEffect(() => {
-    const orderedMessages = orderBy(fetchedMessages, ["createdAt"], ["asc"]);
+  useEffect(
+    () => {
+      const orderedMessages = orderBy(fetchedMessages, ["createdAt"], ["asc"]);
 
-    const messagesFormated = orderedMessages.map(mes => {
-      return {
-        id: mes.uuid,
-        message: mes.message,
-        receiverId: mes.receiver_id,
-        senderId: mes.sender_id,
-        receiver: mes.receiver_id === user.id ? user.name : receiver.username,
-        sender: mes.sender_id === user.id ? user.name : receiver.username
-      };
-    });
-    setOldMessages(messagesFormated);
-  }, [fetchedMessages]);
+      const messagesFormated = orderedMessages.map(mes => {
+        return {
+          id: mes.uuid,
+          message: mes.message,
+          receiverId: mes.receiver_id,
+          senderId: mes.sender_id,
+          receiver: mes.receiver_id === user.id ? user.name : receiver.username,
+          sender: mes.sender_id === user.id ? user.name : receiver.username
+        };
+      });
+      setOldMessages(messagesFormated);
+    },
+    // eslint-disable-next-line
+    [fetchedMessages]
+  );
 
   useEffect(() => {
     if (privateMessages !== undefined && privateMessages.length) {

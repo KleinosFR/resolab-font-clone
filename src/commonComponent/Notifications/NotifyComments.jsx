@@ -43,30 +43,38 @@ function NotifyComments({ userId, setCount, token }) {
       .catch(err => console.log("error", err));
   };
 
-  useEffect(() => {
-    fetchPosts(1, []);
-  }, []);
+  useEffect(
+    () => {
+      fetchPosts(1, []);
+    },
+    // eslint-disable-next-line
+    []
+  );
 
-  useEffect(() => {
-    let comments = [];
-    // making an array of comments from array of posts
-    userMessages.forEach(message => {
-      const messageComments = message.comments.map(comment => ({
-        messageId: message.id,
-        message: message.description,
-        ...comment
-      }));
-      comments = comments.concat(messageComments);
-    });
-    // sorting comments from newer to older
-    comments.sort(function(a, b) {
-      return new Date(a.createdAt) - new Date(b.createdAt);
-    });
-    // removing comments from user
-    // comments = comments.filter(comment => comment.user.id !== userId);
-    setCommentsOnUserMessages(comments.reverse());
-    setCount(commentsOnUserMessages.length + userMessages.length);
-  }, [userMessages]);
+  useEffect(
+    () => {
+      let comments = [];
+      // making an array of comments from array of posts
+      userMessages.forEach(message => {
+        const messageComments = message.comments.map(comment => ({
+          messageId: message.id,
+          message: message.description,
+          ...comment
+        }));
+        comments = comments.concat(messageComments);
+      });
+      // sorting comments from newer to older
+      comments.sort(function(a, b) {
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+      // removing comments from user
+      // comments = comments.filter(comment => comment.user.id !== userId);
+      setCommentsOnUserMessages(comments.reverse());
+      setCount(commentsOnUserMessages.length + userMessages.length);
+    },
+    // eslint-disable-next-line
+    [userMessages]
+  );
 
   return (
     <List>

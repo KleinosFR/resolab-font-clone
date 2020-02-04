@@ -55,22 +55,34 @@ function Contact({
   const [receiverId, setReceiverId] = useState(receiver.id);
   const [isOnline, setIsOnline] = useState(false);
 
-  useEffect(() => {
-    fetchDbMessages();
-  }, [receiver, user]);
+  useEffect(
+    () => {
+      fetchDbMessages();
+    },
+    // eslint-disable-next-line
+    [receiver, user]
+  );
 
-  useEffect(() => {
-    setActiveChat(chat[0]);
-    setUserChat(chat[0]);
-  }, [chat[0]]);
+  useEffect(
+    () => {
+      setActiveChat(chat[0]);
+      setUserChat(chat[0]);
+    },
+    // eslint-disable-next-line
+    [chat[0]]
+  );
 
-  useEffect(() => {
-    console.log("user connected to chat");
-    find(connectedUsers, { id: receiver.id })
-      ? setIsOnline(true)
-      : setIsOnline(false);
-    retrieveOnlineUsers(connectedUsers);
-  }, [connectedUsers]);
+  useEffect(
+    () => {
+      console.log("user connected to chat");
+      find(connectedUsers, { id: receiver.id })
+        ? setIsOnline(true)
+        : setIsOnline(false);
+      retrieveOnlineUsers(connectedUsers);
+    },
+    // eslint-disable-next-line
+    [connectedUsers]
+  );
 
   const getLastMessage = messages => {
     const lastMes = last(messages);

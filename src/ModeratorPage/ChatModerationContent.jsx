@@ -15,9 +15,13 @@ function ChatModerationContent({ openAlert, token }) {
       Accept: "application/json"
     }
   };
-  useEffect(() => {
-    fetchDbMessages();
-  }, []);
+  useEffect(
+    () => {
+      fetchDbMessages();
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   const findNearestDate = (array, date) => {
     let value = array[0];

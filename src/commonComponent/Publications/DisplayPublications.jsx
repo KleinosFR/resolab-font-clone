@@ -38,13 +38,17 @@ function DisplayPublications({
     setTimerCount(timerCount + 1);
   }, 10000);
 
-  useEffect(() => {
-    const fetchDatas = async page => {
-      const res = await fetchPages(page);
-      setPublications(res);
-    };
-    fetchDatas(lastPageToFetch);
-  }, [lastPageToFetch, timerCount]);
+  useEffect(
+    () => {
+      const fetchDatas = async page => {
+        const res = await fetchPages(page);
+        setPublications(res);
+      };
+      fetchDatas(lastPageToFetch);
+    },
+    // eslint-disable-next-line
+    [lastPageToFetch, timerCount]
+  );
 
   const fetchPages = async lastPage => {
     let fetchedPublications = [];

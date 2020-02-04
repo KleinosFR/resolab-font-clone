@@ -45,15 +45,29 @@ function NotifyLikes({ userId, setCount, token }) {
       .catch(err => console.log("error", err));
   };
 
-  useEffect(() => {
-    fetchLikes(1);
-  }, []);
+  useEffect(
+    () => {
+      fetchLikes(1);
+    },
+    // eslint-disable-next-line
+    []
+  );
 
-  useEffect(() => {
-    setLikesForUser(userLikes.reverse().splice(0, 5));
-  }, [userLikes]);
+  useEffect(
+    () => {
+      setLikesForUser(userLikes.reverse().splice(0, 5));
+    },
+    // eslint-disable-next-line
+    [userLikes]
+  );
 
-  useEffect(() => setCount(likesForUser.length), [likesForUser]);
+  useEffect(
+    () => {
+      setCount(likesForUser.length);
+    },
+    // eslint-disable-next-line
+    [likesForUser]
+  );
 
   return (
     <div>

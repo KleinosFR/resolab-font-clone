@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MaterialTable from "material-table";
 import axios from "axios";
-import CustomizedSnackbars from "../../commonComponent/SnackBar";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 

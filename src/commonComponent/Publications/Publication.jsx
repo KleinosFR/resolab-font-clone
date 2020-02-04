@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { filter } from "lodash";
-import {
-  Warning,
-  PermIdentity,
-  ChatBubbleOutline,
-  Filter
-} from "@material-ui/icons";
+import { Warning, PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import {
@@ -58,12 +53,16 @@ function Post({
     }
   };
 
-  useEffect(() => {
-    stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
-    if (userId === userIdPublication) {
-      setIsMyPublication(true);
-    }
-  }, []);
+  useEffect(
+    () => {
+      stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
+      if (userId === userIdPublication) {
+        setIsMyPublication(true);
+      }
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   useEffect(() => {
     const displayComments = comments && filter(comments, "display");

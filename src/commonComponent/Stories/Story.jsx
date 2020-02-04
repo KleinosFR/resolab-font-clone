@@ -42,11 +42,15 @@ function Storie({
     }
   };
 
-  useEffect(() => {
-    if (userId === userIdStory) {
-      setIsMyStory(true);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (userId === userIdStory) {
+        setIsMyStory(true);
+      }
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   const handleOpen = () => {
     setOpen(true);

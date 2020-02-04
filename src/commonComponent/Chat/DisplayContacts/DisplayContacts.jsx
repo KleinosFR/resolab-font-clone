@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { TextField } from "@material-ui/core";
-import { orderBy, findIndex } from "lodash";
+import { orderBy } from "lodash";
 import axios from "axios";
 import { connect } from "react-redux";
 
@@ -98,7 +98,7 @@ class DisplayContacts extends Component {
       users,
       classes
     } = this.props;
-    const { reciever, allUsers, searchUser } = this.state;
+    const { allUsers, searchUser } = this.state;
     return (
       <div id="side-bar">
         <TextField

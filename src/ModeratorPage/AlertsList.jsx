@@ -9,18 +9,26 @@ function AlertsList({ classes, setAlertCount }) {
   const { datas, request } = useRecursiveGet("/alerts", 10000);
   const [orderedAlertsByTakenInCharge, setOrderedAlerts] = useState([]);
 
-  useEffect(() => {
-    request();
-    const orderedAlerts = datas && orderBy(datas, ["takenCare"], ["asc"]);
-    setOrderedAlerts(orderedAlerts);
-  }, []);
+  useEffect(
+    () => {
+      request();
+      const orderedAlerts = datas && orderBy(datas, ["takenCare"], ["asc"]);
+      setOrderedAlerts(orderedAlerts);
+    },
+    // eslint-disable-next-line
+    []
+  );
 
-  useEffect(() => {
-    const unresolvedAlerts = datas && filter(datas, ["resolved", false]);
-    datas && setAlertCount(unresolvedAlerts.length);
-    const orderedAlerts = datas && orderBy(datas, ["takenCare"], ["asc"]);
-    setOrderedAlerts(orderedAlerts);
-  }, [datas]);
+  useEffect(
+    () => {
+      const unresolvedAlerts = datas && filter(datas, ["resolved", false]);
+      datas && setAlertCount(unresolvedAlerts.length);
+      const orderedAlerts = datas && orderBy(datas, ["takenCare"], ["asc"]);
+      setOrderedAlerts(orderedAlerts);
+    },
+    // eslint-disable-next-line
+    [datas]
+  );
 
   return (
     <List>
