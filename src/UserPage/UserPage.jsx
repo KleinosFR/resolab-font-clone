@@ -51,9 +51,7 @@ export default function UserPage() {
         <Grid
           container
           item
-          xs={2}
-          xl={4}
-          m={2}
+          xs={4}
           justify="center"
           alignItems=""
           style={{ width: "100%" }}
