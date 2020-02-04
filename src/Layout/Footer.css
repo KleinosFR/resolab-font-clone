@@ -1,0 +1,32 @@
+/* Ripple effect */
+/* .footer {
+    text-align: center;
+    position: fixed;
+} */
+.ripple {
+  background-color: #47a7f5;
+  background-position: center;
+  transition: background 0.8s;
+  padding: 5px;
+  position: absolute;
+  text-align: center;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+.ripple:hover {
+  background: #47a7f5 radial-gradient(circle, transparent 1%, #47a7f5 1%)
+    center/15000%;
+}
+
+.link:hover {
+  color: aliceblue;
+}
+.ripple:active {
+  background-color: #6eb9f7;
+  background-size: 100%;
+  transition: background 0s;
+}

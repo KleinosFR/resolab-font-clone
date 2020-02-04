@@ -1,0 +1,31 @@
+.scroll-container {
+  position: fixed;
+  margin: none;
+  z-index: 10;
+} /* container for the header */
+
+.scroll-post-article {
+  position: fixed;
+  top: 350px;
+  justify-content: flex-start;
+} /* used for the content-adding component, had to use big values for margin to center the button on the userpage */
+
+.scroll-publication {
+  scroll-behavior: smooth;
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.scroll-notifications {
+  position: fixed;
+  top: 120px;
+  justify-content: flex-start;
+}
+
+.scroll-post {
+  scroll-behavior: smooth;
+  top: 250px;
+}

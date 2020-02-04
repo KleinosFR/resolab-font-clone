@@ -1,8 +1,10 @@
 import React from "react";
-import "./App.css";
+// import Layout from "./Layout/Layout";
+
+import Router from "./Router";
 
 function App() {
-  return <div className="App">Hello World !</div>;
+  return <Router style={{ width: "100vw" }} />;
 }
 
 export default App;
