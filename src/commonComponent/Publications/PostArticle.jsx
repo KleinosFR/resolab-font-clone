@@ -124,11 +124,20 @@ function PostArticle({ id, token, handleSnackBar }) {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        style={{ maxWidth: "95%" }}
       >
         <Button>
           <AddCircleOutlineIcon style={{ fontSize: 80 }} onClick={handleOpen} />
         </Button>
-        <p style={{ fontFamily: "Roboto" }}>Ajouter une nouvelle photo</p>
+        <p
+          style={{
+            flexWrap: "wrap",
+            textAlign: "center",
+            fontFamily: "Roboto"
+          }}
+        >
+          Ajouter une nouvelle photo
+        </p>
       </Box>
       <Modal
         aria-labelledby="transition-modal-title"

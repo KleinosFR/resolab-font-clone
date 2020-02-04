@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import { useRecursiveGet } from "../../hooks/useApi";
-import Story from "./Story";
+import Storie from "./Story";
 import PostStorie from "./PostStorie";
 import img from "../../Assets/logo-resolab.png";
 
@@ -25,10 +25,7 @@ function DisplayStories({
 
   return (
     <Grid container direction="row" alignItems="center" wrap="nowrap">
-      <PostStorie
-        classes={classes}
-        handleSnackBar={(message, color) => handleSnackBar(message, color)}
-      />
+      <PostStorie classes={classes} handleSnackBar={handleSnackBar} />
       {datas && (
         <>
           {userRoles[0] === "ROLE_STUDENT" && isRestricted
@@ -47,26 +44,21 @@ function DisplayStories({
                       {nowDate - storyDate < 86400000 && story.display && (
                         <>
                           {imageStory ? (
-                            <Story
+                            <Storie
                               storyId={story.id}
                               classes={classes}
                               username={story.user.username}
                               userIdStory={story.user.id}
                               image={`${mediaUrl}/media/${story.image.filePath}`}
-                              handleSnackBar={(message, color) =>
-                                handleSnackBar(message, color)
-                              }
+                              handleSnackBar={handleSnackBar}
                             />
                           ) : (
-                            <Story
+                            <Storie
                               storyId={story.id}
                               classes={classes}
                               username={story.user.username}
                               userIdStory={story.user.id}
                               image={img}
-                              handleSnackBar={(message, color) =>
-                                handleSnackBar(message, color)
-                              }
                             />
                           )}
                         </>
@@ -83,26 +75,20 @@ function DisplayStories({
                     {nowDate - storyDate < 86400000 && story.display && (
                       <>
                         {imageStory ? (
-                          <Story
+                          <Storie
                             storyId={story.id}
                             classes={classes}
                             username={story.user.username}
                             userIdStory={story.user.id}
                             image={`${mediaUrl}/media/${story.image.filePath}`}
-                            handleSnackBar={(message, color) =>
-                              handleSnackBar(message, color)
-                            }
                           />
                         ) : (
-                          <Story
+                          <Storie
                             storyId={story.id}
                             classes={classes}
                             username={story.user.username}
                             userIdStory={story.user.id}
                             image={img}
-                            handleSnackBar={(message, color) =>
-                              handleSnackBar(message, color)
-                            }
                           />
                         )}
                       </>

@@ -10,7 +10,7 @@ import "../Layout/Scroll.css";
 
 function Header({ isAuth }) {
   return (
-    <AppBar color="primary" position="fixed">
+    <AppBar color="primary" position="fixed" style={{ width: "100%" }}>
       <Grid container spacing={3} alignItems="center">
         <HeaderSite />
         {isAuth && <HeaderIcons />}
