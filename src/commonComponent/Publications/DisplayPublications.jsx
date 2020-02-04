@@ -70,10 +70,10 @@ function DisplayPublications({
         onContextMenu={e => e.preventDefault()}
       >
         <Grid container spacing={0} align="center" justify="center">
-          <Grid item xs="5">
+          <Grid item xs={5}>
             <Typography>Toutes les publications</Typography>
           </Grid>
-          <Grid item xs="2">
+          <Grid item xs={2}>
             <Switch
               checked={showUserPublications}
               onChange={() => setShowUserPublications(!showUserPublications)}
@@ -81,7 +81,7 @@ function DisplayPublications({
               color="primary"
             />
           </Grid>
-          <Grid item xs="5">
+          <Grid item xs={5}>
             <Typography>Mes publications</Typography>
           </Grid>
         </Grid>
