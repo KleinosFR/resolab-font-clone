@@ -23,6 +23,7 @@ import { orderBy, find, last } from "lodash";
 import ChatRouter from "../messages/ChatRouter";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Contact({
   receiver,
@@ -47,7 +48,7 @@ function Contact({
   };
 
   const [chatVisibility, setChatVisibility] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [isAlert, setIsAlert] = useState(false);
   const [userChat, setUserChat] = useState(chat[0]);
   const [isNewMessage, setIsNewMessage] = useState(false);
   const [newMessagesCount, setNewMessagesCount] = useState(0);
@@ -98,7 +99,8 @@ function Contact({
       .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, config)
       .then(res => {
         setFetchedMessages(res.data);
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   const openChat = async () => {
@@ -119,8 +121,33 @@ function Contact({
     setChatVisibility(false);
   };
 
-  const handleClickAlert = () => {
-    setAlert(!alert);
+  const handleClickAlert = async () => {
+    try {
+      const postChatAlert = axios.post(
+        `${apiUrl}/alerts`,
+        {
+          user: `api/users/${user.id}`,
+          users: [
+            {
+              id: `${user.id}`,
+              username: `${user.name}`,
+              role: "sender"
+            },
+            {
+              id: `${receiver.id}`,
+              username: `${receiver.username}`,
+              role: "receiver"
+            }
+          ]
+        },
+        config
+      );
+      await Promise.all([postChatAlert]);
+      setIsAlert(true);
+    } catch (err) {
+      console.log(err.message);
+      throw err;
+    }
   };
 
   return (
@@ -172,7 +199,7 @@ function Contact({
           action={
             <>
               <IconButton aria-label="alert">
-                {alert ? (
+                {isAlert ? (
                   <Warning color="secondary" onClick={handleClickAlert} />
                 ) : (
                   <Warning color="disabled" onClick={handleClickAlert} />
