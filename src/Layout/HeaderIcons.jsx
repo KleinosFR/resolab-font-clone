@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Fab from "@material-ui/core/Fab";
 import { useHistory } from "react-router-dom";
 
+import TimerComponent from "../Layout/TimerComponent";
 import { LOGOUT } from "../utils/Events";
 import { removeToken } from "../reducers/actions";
 
@@ -28,6 +29,9 @@ function HeaderIcons({ logOut, socket, role }) {
   return (
     <Grid item xs={3} spacing={3}>
       <Grid container justify="space-evenly">
+        <Grid item xs={6}>
+          <TimerComponent />
+        </Grid>
         <Grid item xs={3}>
           {role === "ROLE_ADMIN" && (
             <Fab color="default">
