@@ -10,8 +10,14 @@ function AlertInfo({ alert }) {
   if (alert.story) {
     return <div>sur la story de {alert.story.user.username}</div>;
   }
-  if (alert.chat) {
-    return <div>sur la discussion de {alert.chat.user.username}</div>;
+  if (alert.users[1]) {
+    const sender = alert.users[0];
+    const receiver = alert.users[1];
+    return (
+      <div>
+        sur la discussion entre {sender.username} et {receiver.username}
+      </div>
+    );
   }
 }
 
