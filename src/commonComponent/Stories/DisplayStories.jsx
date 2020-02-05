@@ -19,9 +19,13 @@ function DisplayStories({
   const { datas, request } = useRecursiveGet("/stories", 10000);
   const [userRoles, setUserRoles] = useState(roles);
 
-  useEffect(() => {
-    request();
-  }, []);
+  useEffect(
+    () => {
+      request();
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   return (
     <Grid container direction="row" alignItems="center" wrap="nowrap">
@@ -45,6 +49,7 @@ function DisplayStories({
                         <>
                           {imageStory ? (
                             <Storie
+                              key={`${story.id}${Math.random()}`}
                               storyId={story.id}
                               classes={classes}
                               username={story.user.username}
@@ -54,6 +59,7 @@ function DisplayStories({
                             />
                           ) : (
                             <Storie
+                              key={`${story.id}${Math.random()}`}
                               storyId={story.id}
                               classes={classes}
                               username={story.user.username}
@@ -76,6 +82,7 @@ function DisplayStories({
                       <>
                         {imageStory ? (
                           <Storie
+                            key={`${story.id}${Math.random()}`}
                             storyId={story.id}
                             classes={classes}
                             username={story.user.username}
@@ -84,6 +91,7 @@ function DisplayStories({
                           />
                         ) : (
                           <Storie
+                            key={`${story.id}${Math.random()}`}
                             storyId={story.id}
                             classes={classes}
                             username={story.user.username}

@@ -1,5 +1,10 @@
 import React from "react";
-import { ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
+import {
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography
+} from "@material-ui/core";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { connect } from "react-redux";
 

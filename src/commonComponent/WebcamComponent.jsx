@@ -35,10 +35,14 @@ function WebcamCapture({ takePhoto }) {
     return newBlob;
   };
 
-  const capture = React.useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot(); // Base64
-    takePhoto(convertBase64ToFile(imageSrc));
-  }, [webcamRef]);
+  const capture = React.useCallback(
+    () => {
+      const imageSrc = webcamRef.current.getScreenshot(); // Base64
+      takePhoto(convertBase64ToFile(imageSrc));
+    },
+    // eslint-disable-next-line
+    [webcamRef]
+  );
 
   return (
     <>

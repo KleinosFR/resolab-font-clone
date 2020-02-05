@@ -83,11 +83,11 @@ function Comment({ comment, classes, token, userId }) {
         />
 
         <CardActions disableSpacing>
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={handleClickAlert}>
             {isAlert ? (
-              <Warning color="secondary" onClick={handleClickAlert} />
+              <Warning color="secondary" />
             ) : (
-              <Warning color="disabled" onClick={handleClickAlert} />
+              <Warning color="disabled" />
             )}
           </IconButton>
           <CommentLikes commentId={comment.id} />
