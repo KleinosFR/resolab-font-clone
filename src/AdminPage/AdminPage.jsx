@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Tabs, Tab, Typography, Box } from "@material-ui/core";
+import { Button, Tabs, Tab } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -88,10 +88,14 @@ function AdminPage({ token }) {
     fetchRessource(1, [], "/class_rooms", setAllClassrooms);
   };
 
-  useEffect(() => {
-    // retrieving all the data
-    fetchAll();
-  }, []);
+  useEffect(
+    () => {
+      // retrieving all the data
+      fetchAll();
+    },
+    // eslint-disable-next-line
+    []
+  );
   const handleExit = () => {
     history.push("/moderator");
   };

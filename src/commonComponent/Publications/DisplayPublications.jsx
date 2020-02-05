@@ -38,13 +38,17 @@ function DisplayPublications({
     setTimerCount(timerCount + 1);
   }, 10000);
 
-  useEffect(() => {
-    const fetchDatas = async page => {
-      const res = await fetchPages(page);
-      setPublications(res);
-    };
-    fetchDatas(lastPageToFetch);
-  }, [lastPageToFetch, timerCount]);
+  useEffect(
+    () => {
+      const fetchDatas = async page => {
+        const res = await fetchPages(page);
+        setPublications(res);
+      };
+      fetchDatas(lastPageToFetch);
+    },
+    // eslint-disable-next-line
+    [lastPageToFetch, timerCount]
+  );
 
   const fetchPages = async lastPage => {
     let fetchedPublications = [];
@@ -64,12 +68,16 @@ function DisplayPublications({
 
   return (
     <BottomScrollListener onBottom={fetchMorePages}>
-      <Grid direction="column" onContextMenu={e => e.preventDefault()}>
+      <Grid
+        container
+        direction="column"
+        onContextMenu={e => e.preventDefault()}
+      >
         <Grid container spacing={0} align="center" justify="center">
-          <Grid item xs="5">
+          <Grid item xs={5}>
             <Typography>Toutes les publications</Typography>
           </Grid>
-          <Grid item xs="2">
+          <Grid item xs={2}>
             <Switch
               checked={showUserPublications}
               onChange={() => setShowUserPublications(!showUserPublications)}
@@ -77,7 +85,7 @@ function DisplayPublications({
               color="primary"
             />
           </Grid>
-          <Grid item xs="5">
+          <Grid item xs={5}>
             <Typography>Mes publications</Typography>
           </Grid>
         </Grid>

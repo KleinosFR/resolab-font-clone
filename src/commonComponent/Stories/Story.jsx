@@ -42,11 +42,15 @@ function Storie({
     }
   };
 
-  useEffect(() => {
-    if (userId === userIdStory) {
-      setIsMyStory(true);
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (userId === userIdStory) {
+        setIsMyStory(true);
+      }
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   const handleOpen = () => {
     setOpen(true);
@@ -136,22 +140,22 @@ function Storie({
                   }
                   action={
                     <>
-                      <IconButton aria-label="settings">
-                        {isMyStory && (
-                          <DeleteIcon onClick={stopDisplayMyStory} />
-                        )}
-                      </IconButton>
-                      <IconButton aria-label="settings">
+                      {isMyStory && (
+                        <IconButton
+                          aria-label="settings"
+                          onClick={stopDisplayMyStory}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      )}
+                      <IconButton
+                        aria-label="settings"
+                        onClick={handleClickAlert}
+                      >
                         {isAlert ? (
-                          <Warning
-                            color="secondary"
-                            onClick={handleClickAlert}
-                          />
+                          <Warning color="secondary" />
                         ) : (
-                          <Warning
-                            color="disabled"
-                            onClick={handleClickAlert}
-                          />
+                          <Warning color="disabled" />
                         )}
                       </IconButton>
                     </>

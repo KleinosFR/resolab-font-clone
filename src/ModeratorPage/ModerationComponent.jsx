@@ -184,8 +184,8 @@ function ModerationComponent({
           </Typography>
         }
         action={
-          <IconButton aria-label="settings">
-            <RemoveOutlinedIcon onClick={() => removeAlert()} />
+          <IconButton aria-label="settings" onClick={() => removeAlert()}>
+            <RemoveOutlinedIcon />
           </IconButton>
         }
       />
@@ -193,7 +193,7 @@ function ModerationComponent({
         <ModerationContent openAlert={openAlert} classes={classes} />
         <Grid
           container
-          items
+          item
           xs={12}
           display="flex"
           direction="row"
