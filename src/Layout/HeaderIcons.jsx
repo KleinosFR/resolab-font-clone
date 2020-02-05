@@ -27,21 +27,21 @@ function HeaderIcons({ logOut, socket, role }) {
   };
 
   return (
-    <Grid item xs={3} spacing={3}>
-      <Grid container justify="space-evenly">
+    <Grid item xs={3}>
+      <Grid container spacing={3} justify="space-evenly">
         <Grid item xs={6}>
           <TimerComponent />
         </Grid>
         <Grid item xs={3}>
           {role === "ROLE_ADMIN" && (
-            <Fab color="default">
-              <Settings color="default" onClick={handleAdmin} />
+            <Fab>
+              <Settings onClick={handleAdmin} />
             </Fab>
           )}
         </Grid>
         <Grid item xs={3}>
-          <Fab color="default">
-            <ExitToApp color="default" onClick={handleLogout} />
+          <Fab>
+            <ExitToApp onClick={handleLogout} />
           </Fab>
         </Grid>
       </Grid>

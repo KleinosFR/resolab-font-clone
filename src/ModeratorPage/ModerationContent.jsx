@@ -3,6 +3,7 @@ import { Typography, CardMedia } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import DisplayCommentsPostsAlerts from "./DisplayCommentsPostsAlerts";
+import ChatModerationContent from "./ChatModerationContent";
 
 function ModerationContent({ classes, openAlert, token }) {
   if (openAlert.post) {
@@ -51,13 +52,8 @@ function ModerationContent({ classes, openAlert, token }) {
       </>
     );
   }
-  if (openAlert.chat) {
-    return (
-      <Typography>
-        {openAlert.user.username} a lancé une alerte sur la discussion de{" "}
-        {openAlert.chat.user.username} :
-      </Typography>
-    );
+  if (openAlert.users[1]) {
+    return <ChatModerationContent openAlert={openAlert} token={token} />;
   }
 }
 

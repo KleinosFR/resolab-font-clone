@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { filter } from "lodash";
-import {
-  Warning,
-  PermIdentity,
-  ChatBubbleOutline,
-  Filter
-} from "@material-ui/icons";
+import { Warning, PermIdentity, ChatBubbleOutline } from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import {
@@ -59,12 +54,16 @@ function Post({
     }
   };
 
-  useEffect(() => {
-    stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
-    if (userId === userIdPublication) {
-      setIsMyPublication(true);
-    }
-  }, []);
+  useEffect(
+    () => {
+      stateLikes.some(like => like.user.id === userId) && setIsLiked(true);
+      if (userId === userIdPublication) {
+        setIsMyPublication(true);
+      }
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   useEffect(() => {
     const displayComments = comments && filter(comments, "display");
@@ -208,16 +207,19 @@ function Post({
           }
           action={
             <>
-              <IconButton aria-label="settings">
-                {isMyPublication && (
-                  <DeleteIcon onClick={stopDisplayMyPublication} />
-                )}
-              </IconButton>
-              <IconButton aria-label="settings">
+              {isMyPublication && (
+                <IconButton
+                  aria-label="settings"
+                  onClick={stopDisplayMyPublication}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
+              <IconButton aria-label="settings" onClick={handleClickAlert}>
                 {isAlert ? (
-                  <Warning color="secondary" onClick={handleClickAlert} />
+                  <Warning color="secondary" />
                 ) : (
-                  <Warning color="disabled" onClick={handleClickAlert} />
+                  <Warning color="disabled" />
                 )}
               </IconButton>
             </>
@@ -231,11 +233,12 @@ function Post({
           <IconButton
             aria-label="j'aime cette publication"
             disabled={isButtonDisabled}
+            onClick={handleLike}
           >
             {isLiked ? (
-              <Favorite color="secondary" onClick={handleLike} />
+              <Favorite color="secondary" />
             ) : (
-              <FavoriteBorder color="disabled" onClick={handleLike} />
+              <FavoriteBorder color="disabled" />
             )}
           </IconButton>
           <div style={{ fontFamily: "Roboto" }}>{likesCount}</div>

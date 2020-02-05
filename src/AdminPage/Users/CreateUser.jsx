@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Select,
-  MenuItem,
-  Grid,
-  InputLabel,
-  Box,
-  Container
-} from "@material-ui/core";
+import { TextField, Button, Grid, Container } from "@material-ui/core";
 import axios from "axios";
 import { connect } from "react-redux";
 import { useEffect } from "react";
@@ -20,9 +11,6 @@ function CreateUser({ token, schools, classrooms, handleSnackBar, refresh }) {
     _username: "",
     _password: ""
   });
-  const [userSchool, setUserSchool] = useState(0);
-  const [userClassroom, setUserClassroom] = useState(0);
-
   const [allschools, setAllschools] = useState([{}]);
 
   const config = {

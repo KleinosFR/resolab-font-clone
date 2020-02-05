@@ -13,7 +13,8 @@ import {
   IconButton,
   Paper,
   Button,
-  CircularProgress
+  CircularProgress,
+  Box
 } from "@material-ui/core";
 import PermIdentity from "@material-ui/icons/PermIdentity";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
@@ -183,8 +184,8 @@ function ModerationComponent({
           </Typography>
         }
         action={
-          <IconButton aria-label="settings">
-            <RemoveOutlinedIcon onClick={() => removeAlert()} />
+          <IconButton aria-label="settings" onClick={() => removeAlert()}>
+            <RemoveOutlinedIcon />
           </IconButton>
         }
       />
@@ -192,18 +193,20 @@ function ModerationComponent({
         <ModerationContent openAlert={openAlert} classes={classes} />
         <Grid
           container
-          items
-          xs={10}
+          item
+          xs={12}
           display="flex"
           direction="row"
           style={{ margin: "auto", padding: "5px" }}
         >
-          <Paper padding={"5px"} elevation={1} style={{ textAlign: "center" }}>
-            <Typography>
-              Message laissé par {openAlert.user.username} concernant cette
-              alerte :
-            </Typography>
-            <Typography>"Cette publication me pose problème."</Typography>
+          <Paper elevation={1} style={{ textAlign: "center", width: "100%" }}>
+            <Box p={2}>
+              <Typography>
+                Message laissé par {openAlert.user.username} concernant cette
+                alerte :
+              </Typography>
+              <Typography>"Cette publication me pose problème."</Typography>
+            </Box>
           </Paper>
         </Grid>
       </CardContent>

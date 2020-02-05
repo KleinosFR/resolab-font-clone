@@ -1,17 +1,24 @@
 import React from "react";
+import { Typography } from "@material-ui/core";
 
 function AlertInfo({ alert }) {
   if (alert.post) {
-    return <div>sur la publication de {alert.post.user.username}</div>;
+    return <>sur la publication de {alert.post.user.username}</>;
   }
   if (alert.comment) {
-    return <div>sur le commentaire de {alert.comment.user.username}</div>;
+    return <>sur le commentaire de {alert.comment.user.username}</>;
   }
   if (alert.story) {
-    return <div>sur la story de {alert.story.user.username}</div>;
+    return <>sur la story de {alert.story.user.username}</>;
   }
-  if (alert.chat) {
-    return <div>sur la discussion de {alert.chat.user.username}</div>;
+  if (alert.users[1]) {
+    const sender = alert.users[0];
+    const receiver = alert.users[1];
+    return (
+      <>
+        sur la discussion entre {sender.username} et {receiver.username}
+      </>
+    );
   }
 }
 

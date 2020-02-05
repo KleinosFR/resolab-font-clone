@@ -20,20 +20,28 @@ function CommentLikes({ commentId, userId, token }) {
     }
   };
 
-  useEffect(() => {
-    axios
-      .get(`${apiUrl}/likes?comment.id=${commentId}`, config)
-      .then(res => {
-        const data = res.data;
-        setLikes(data);
-      })
-      .catch(err => console.log("error fetching likes", err));
-  }, []);
+  useEffect(
+    () => {
+      axios
+        .get(`${apiUrl}/likes?comment.id=${commentId}`, config)
+        .then(res => {
+          const data = res.data;
+          setLikes(data);
+        })
+        .catch(err => console.log("error fetching likes", err));
+    },
+    // eslint-disable-next-line
+    []
+  );
 
-  useEffect(() => {
-    likes.some(like => like.user.id === userId) && setIsLiked(true);
-    setLikesCount(likes.length);
-  }, [likes]);
+  useEffect(
+    () => {
+      likes.some(like => like.user.id === userId) && setIsLiked(true);
+      setLikesCount(likes.length);
+    },
+    // eslint-disable-next-line
+    [likes]
+  );
 
   const handleLike = () => {
     if (isLiked) {

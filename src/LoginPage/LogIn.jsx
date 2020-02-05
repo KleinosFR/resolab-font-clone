@@ -38,7 +38,6 @@ function LogIn({ storeToken, setUser, roles, isAuth, isActive }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [userRole, setUserRole] = useState("");
-  const [isUserActive, setIsUserActive] = useState(true);
   const [snackBarNotification, setSnackBarNotification] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackBarColor, setSnackBarColor] = useState("success");
@@ -51,30 +50,34 @@ function LogIn({ storeToken, setUser, roles, isAuth, isActive }) {
     color ? setSnackBarColor(color) : setSnackBarColor("succes");
   };
 
-  useEffect(() => {
-    if (isAuth) {
-      if (isActive) {
-        switch (roles[0]) {
-          case "ROLE_STUDENT":
-            history.push("/user");
-            break;
-          case "ROLE_MODERATOR":
-            history.push("/moderator");
-            break;
-          case "ROLE_ADMIN":
-            history.push("/moderator");
-            break;
-          case "ROLE_SUPER_ADMIN":
-            history.push("/moderator");
-            break;
-          default:
-            break;
+  useEffect(
+    () => {
+      if (isAuth) {
+        if (isActive) {
+          switch (roles[0]) {
+            case "ROLE_STUDENT":
+              history.push("/user");
+              break;
+            case "ROLE_MODERATOR":
+              history.push("/moderator");
+              break;
+            case "ROLE_ADMIN":
+              history.push("/moderator");
+              break;
+            case "ROLE_SUPER_ADMIN":
+              history.push("/moderator");
+              break;
+            default:
+              break;
+          }
+        } else {
+          handleSnackBar("Ton compte est temporairement bloqué", "error");
         }
-      } else {
-        handleSnackBar("Ton compte est temporairement bloqué", "error");
       }
-    }
-  }, [roles]);
+    },
+    // eslint-disable-next-line
+    [roles]
+  );
 
   const handleLogin = async e => {
     e.preventDefault();

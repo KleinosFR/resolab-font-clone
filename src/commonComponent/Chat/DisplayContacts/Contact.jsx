@@ -6,7 +6,6 @@ import {
   Card,
   CardHeader,
   Avatar,
-  CardContent,
   IconButton,
   Typography,
   Badge
@@ -15,14 +14,13 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ForumIcon from "@material-ui/icons/Forum";
 import { Warning } from "@material-ui/icons";
 import RemoveOutlinedIcon from "@material-ui/icons/RemoveOutlined";
-import Messages from "../messages/Messages";
-import MessageInput from "../messages/MessageInput";
 import axios from "axios";
 import { connect } from "react-redux";
-import { orderBy, find, last } from "lodash";
+import { find, last } from "lodash";
 import ChatRouter from "../messages/ChatRouter";
 
 const chatUrl = process.env.REACT_APP_CHAT_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function Contact({
   receiver,
@@ -47,7 +45,7 @@ function Contact({
   };
 
   const [chatVisibility, setChatVisibility] = useState(false);
-  const [alert, setAlert] = useState(false);
+  const [isAlert, setIsAlert] = useState(false);
   const [userChat, setUserChat] = useState(chat[0]);
   const [isNewMessage, setIsNewMessage] = useState(false);
   const [newMessagesCount, setNewMessagesCount] = useState(0);
@@ -57,22 +55,34 @@ function Contact({
   const [receiverId, setReceiverId] = useState(receiver.id);
   const [isOnline, setIsOnline] = useState(false);
 
-  useEffect(() => {
-    fetchDbMessages();
-  }, [receiver, user]);
+  useEffect(
+    () => {
+      fetchDbMessages();
+    },
+    // eslint-disable-next-line
+    [receiver, user]
+  );
 
-  useEffect(() => {
-    setActiveChat(chat[0]);
-    setUserChat(chat[0]);
-  }, [chat[0]]);
+  useEffect(
+    () => {
+      setActiveChat(chat[0]);
+      setUserChat(chat[0]);
+    },
+    // eslint-disable-next-line
+    [chat[0]]
+  );
 
-  useEffect(() => {
-    console.log("user connected to chat");
-    find(connectedUsers, { id: receiver.id })
-      ? setIsOnline(true)
-      : setIsOnline(false);
-    retrieveOnlineUsers(connectedUsers);
-  }, [connectedUsers]);
+  useEffect(
+    () => {
+      console.log("user connected to chat");
+      find(connectedUsers, { id: receiver.id })
+        ? setIsOnline(true)
+        : setIsOnline(false);
+      retrieveOnlineUsers(connectedUsers);
+    },
+    // eslint-disable-next-line
+    [connectedUsers]
+  );
 
   const getLastMessage = messages => {
     const lastMes = last(messages);
@@ -98,7 +108,8 @@ function Contact({
       .get(`${chatUrl}/userMessage/${senderId}/${receiverId}`, config)
       .then(res => {
         setFetchedMessages(res.data);
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   const openChat = async () => {
@@ -119,8 +130,33 @@ function Contact({
     setChatVisibility(false);
   };
 
-  const handleClickAlert = () => {
-    setAlert(!alert);
+  const handleClickAlert = async () => {
+    try {
+      const postChatAlert = axios.post(
+        `${apiUrl}/alerts`,
+        {
+          user: `api/users/${user.id}`,
+          users: [
+            {
+              id: `${user.id}`,
+              username: `${user.name}`,
+              role: "sender"
+            },
+            {
+              id: `${receiver.id}`,
+              username: `${receiver.username}`,
+              role: "receiver"
+            }
+          ]
+        },
+        config
+      );
+      await Promise.all([postChatAlert]);
+      setIsAlert(true);
+    } catch (err) {
+      console.log(err.message);
+      throw err;
+    }
   };
 
   return (
@@ -171,15 +207,15 @@ function Contact({
           }
           action={
             <>
-              <IconButton aria-label="alert">
-                {alert ? (
-                  <Warning color="secondary" onClick={handleClickAlert} />
+              <IconButton aria-label="alert" onClick={handleClickAlert}>
+                {isAlert ? (
+                  <Warning color="secondary" />
                 ) : (
-                  <Warning color="disabled" onClick={handleClickAlert} />
+                  <Warning color="disabled" />
                 )}
               </IconButton>
-              <IconButton aria-label="alert">
-                <RemoveOutlinedIcon onClick={closeChat} />
+              <IconButton aria-label="alert" onClick={closeChat}>
+                <RemoveOutlinedIcon />
               </IconButton>
             </>
           }

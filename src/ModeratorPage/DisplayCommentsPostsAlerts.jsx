@@ -28,30 +28,34 @@ function DisplayCommentsPostsAlerts({ openAlert, comment, classes, token }) {
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
 
-  useEffect(() => {
-    let datapost;
-    axios
-      .get(`${apiUrl}/api/comments/${comment.id}`, config)
-      .then(res => {
-        datapost = res.data.post;
-      })
-      .then(() => {
-        axios
-          .get(`${apiUrl}${datapost}`, config)
-          .then(res => {
-            setPost(res.data);
-            setComments(res.data.comments);
-          })
-          .catch(err => {
-            console.log(err.message);
-            throw err;
-          });
-      })
-      .catch(err => {
-        console.log(err.message);
-        throw err;
-      });
-  }, []);
+  useEffect(
+    () => {
+      let datapost;
+      axios
+        .get(`${apiUrl}/api/comments/${comment.id}`, config)
+        .then(res => {
+          datapost = res.data.post;
+        })
+        .then(() => {
+          axios
+            .get(`${apiUrl}${datapost}`, config)
+            .then(res => {
+              setPost(res.data);
+              setComments(res.data.comments);
+            })
+            .catch(err => {
+              console.log(err.message);
+              throw err;
+            });
+        })
+        .catch(err => {
+          console.log(err.message);
+          throw err;
+        });
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   return (
     <>
