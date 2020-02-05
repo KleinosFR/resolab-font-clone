@@ -31,18 +31,6 @@ function UploadImage({ token }) {
 
   return (
     <>
-      {/* <label htmlFor="upload-button">
-                image.preview()
-                {
-                    <img
-                        src={image.preview}
-                        width="300"
-                        height="300"
-                        alt="preview"
-                    />
-                }
-                )
-            </label> */}
       <input type="file" id="upload-button" onChange={handleChange} />
       <button onClick={handleUpload}>Upload</button>
     </>

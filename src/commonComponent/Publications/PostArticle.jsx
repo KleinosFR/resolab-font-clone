@@ -12,6 +12,7 @@ import axios from "axios";
 
 import "../../Layout/Scroll.css";
 import WebcamComponent from "../WebcamComponent";
+import { Typography } from "@material-ui/core";
 
 const mediaUrl = process.env.REACT_APP_MEDIA_URL;
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -159,7 +160,9 @@ function PostArticle({ id, token, handleSnackBar }) {
               fontSize={24}
               fontWeight="fontWeightBold"
             >
-              Nouvelle publication
+              <Typography style={{ fontFamily: "Roboto" }}>
+                Nouvelle publication
+              </Typography>
             </Box>
             <form
               className={classes.root}
