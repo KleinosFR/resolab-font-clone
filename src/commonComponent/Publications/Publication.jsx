@@ -22,6 +22,7 @@ import axios from "axios";
 import { FavoriteBorder, Favorite } from "@material-ui/icons";
 import { connect } from "react-redux";
 
+import { useStyles } from "../useStyles";
 import CommentInput from "./Comments/CommentInput";
 import DisplayComments from "./Comments/DisplayComments";
 
@@ -222,11 +223,7 @@ function Post({
             </>
           }
         />
-        <CardMedia
-          className={classes.media}
-          image={photo}
-          // style={{ maxHeight: "50vh" }}
-        />
+        <CardMedia className={classes.media} image={photo} />
         <CardContent>
           <Typography>{description}</Typography>
         </CardContent>
@@ -241,11 +238,11 @@ function Post({
               <FavoriteBorder color="disabled" onClick={handleLike} />
             )}
           </IconButton>
-          {likesCount}
+          <div style={{ fontFamily: "Roboto" }}>{likesCount}</div>
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutline onClick={handleDisplayComments} />
           </IconButton>
-          {commentsCount.length}
+          <div style={{ fontFamily: "Roboto" }}>{commentsCount.length}</div>
         </CardActions>
         {displayCommentsPost && (
           <>

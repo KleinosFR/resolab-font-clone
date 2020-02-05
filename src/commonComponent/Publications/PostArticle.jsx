@@ -125,7 +125,7 @@ function PostArticle({ id, token, handleSnackBar }) {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        style={{ maxWidth: "95%" }}
+        style={{ width: "" }}
       >
         <Button>
           <AddCircleOutlineIcon style={{ fontSize: 80 }} onClick={handleOpen} />
@@ -152,15 +152,19 @@ function PostArticle({ id, token, handleSnackBar }) {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
+          <div className={classes.paper} style={{ maxHeight: "94vh" }}>
             <Box
               id="transition-modal-title"
               textAlign="center"
-              p={4}
-              fontSize={24}
+              padding="2ƒpx"
+              fontSize={20}
               fontWeight="fontWeightBold"
             >
-              <Typography style={{ fontFamily: "Roboto" }}>
+              <Typography
+                style={{
+                  fontFamily: "Roboto"
+                }}
+              >
                 Nouvelle publication
               </Typography>
             </Box>
@@ -191,7 +195,7 @@ function PostArticle({ id, token, handleSnackBar }) {
                   label="Ajouter une photo via l'ordinateur"
                   type="file"
                   helperText="Taille max acceptée : 1Mo"
-                  style={{ margin: 18 }}
+                  style={{ margin: 10 }}
                   fullWidth
                   margin="normal"
                   InputLabelProps={{ shrink: true }}
@@ -201,7 +205,7 @@ function PostArticle({ id, token, handleSnackBar }) {
                 <TextField
                   id="outlined-full-width"
                   label="Description"
-                  style={{ margin: 18 }}
+                  style={{ margin: 10 }}
                   fullWidth
                   margin="normal"
                   InputLabelProps={{ shrink: true }}
@@ -213,7 +217,7 @@ function PostArticle({ id, token, handleSnackBar }) {
                 />
                 <Button
                   type="submit"
-                  style={{ margin: 18 }}
+                  style={{ margin: 10 }}
                   color="secondary"
                   variant="contained"
                 >
