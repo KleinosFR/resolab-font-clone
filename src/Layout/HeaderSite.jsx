@@ -2,7 +2,6 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 
 import logo from "../Assets/resolab-simple-white.png";
-import { Typography } from "@material-ui/core";
 
 export default function HeaderSite() {
   return (
