@@ -125,7 +125,6 @@ function PostArticle({ id, token, handleSnackBar }) {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        style={{ width: "" }}
       >
         <Button>
           <AddCircleOutlineIcon style={{ fontSize: 80 }} onClick={handleOpen} />
@@ -156,7 +155,7 @@ function PostArticle({ id, token, handleSnackBar }) {
             <Box
               id="transition-modal-title"
               textAlign="center"
-              padding="2ƒpx"
+              padding="2px"
               fontSize={20}
               fontWeight="fontWeightBold"
             >

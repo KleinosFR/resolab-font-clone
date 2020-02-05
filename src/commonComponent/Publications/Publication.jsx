@@ -242,8 +242,11 @@ function Post({
             )}
           </IconButton>
           <div style={{ fontFamily: "Roboto" }}>{likesCount}</div>
-          <IconButton aria-label="add to favorites">
-            <ChatBubbleOutline onClick={handleDisplayComments} />
+          <IconButton
+            aria-label="add to favorites"
+            onClick={handleDisplayComments}
+          >
+            <ChatBubbleOutline />
           </IconButton>
           <div style={{ fontFamily: "Roboto" }}>{commentsCount.length}</div>
         </CardActions>
