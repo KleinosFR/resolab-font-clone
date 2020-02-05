@@ -193,7 +193,7 @@ function ModerationComponent({
         <ModerationContent openAlert={openAlert} classes={classes} />
         <Grid
           container
-          items
+          item
           xs={12}
           display="flex"
           direction="row"

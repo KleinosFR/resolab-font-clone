@@ -49,7 +49,7 @@ function DisplayStories({
                         <>
                           {imageStory ? (
                             <Storie
-                              key={story.id}
+                              key={`${story.id}${Math.random()}`}
                               storyId={story.id}
                               classes={classes}
                               username={story.user.username}
@@ -59,7 +59,7 @@ function DisplayStories({
                             />
                           ) : (
                             <Storie
-                              key={story.id}
+                              key={`${story.id}${Math.random()}`}
                               storyId={story.id}
                               classes={classes}
                               username={story.user.username}
@@ -82,7 +82,7 @@ function DisplayStories({
                       <>
                         {imageStory ? (
                           <Storie
-                            key={story.id}
+                            key={`${story.id}${Math.random()}`}
                             storyId={story.id}
                             classes={classes}
                             username={story.user.username}
@@ -91,7 +91,7 @@ function DisplayStories({
                           />
                         ) : (
                           <Storie
-                            key={story.id}
+                            key={`${story.id}${Math.random()}`}
                             storyId={story.id}
                             classes={classes}
                             username={story.user.username}

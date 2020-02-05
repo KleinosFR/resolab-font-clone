@@ -80,12 +80,18 @@ function NotifyComments({ userId, setCount, token }) {
     <List>
       {commentsOnUserMessages.length < 5
         ? commentsOnUserMessages.map(comment => (
-            <CommentNotification key={comment.id} comment={comment} />
+            <CommentNotification
+              key={`${comment.id}${Math.random()}`}
+              comment={comment}
+            />
           ))
         : commentsOnUserMessages
             .splice(0, 5)
             .map(comment => (
-              <CommentNotification key={comment.id} comment={comment} />
+              <CommentNotification
+                key={`${comment.id}${Math.random()}`}
+                comment={comment}
+              />
             ))}
     </List>
   );

@@ -83,14 +83,14 @@ function ChatModerationContent({ openAlert, token }) {
           {fetchedMessages.map(message => {
             if (message.sender_id == sender.id) {
               return (
-                <Typography style={{ textAlign: "left" }}>
+                <Typography key={Math.random()} style={{ textAlign: "left" }}>
                   {sender.username}: {message.message}
                 </Typography>
               );
             }
             if (message.sender_id == receiver.id) {
               return (
-                <Typography style={{ textAlign: "left" }}>
+                <Typography key={Math.random()} style={{ textAlign: "left" }}>
                   {receiver.username}: {message.message}
                 </Typography>
               );
