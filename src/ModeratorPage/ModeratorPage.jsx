@@ -27,7 +27,7 @@ function ModeratorPage({ openAlert }) {
 
   return (
     <Layout>
-      <Grid container style={{ marginTop: "80px" }} spacing={3}>
+      <Grid container style={{ marginTop: "80px", width: "100%" }} spacing={3}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} classes={classes} />
         </Grid>
@@ -55,7 +55,14 @@ function ModeratorPage({ openAlert }) {
             <DisplayPublications handleSnackBar={handleSnackBar} />
           )}
         </Grid>
-        <Grid container item xs={3} xl={3} justify="center">
+        <Grid
+          container
+          item
+          xs={4}
+          justify="center"
+          alignItems=""
+          style={{ width: "100%" }}
+        >
           <Sidebar classes={classes} />
         </Grid>
       </Grid>

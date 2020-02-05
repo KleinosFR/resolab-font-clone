@@ -12,7 +12,7 @@ export default function Sidebar({ classes }) {
   const role = useSelector(state => state.userReducer.roles[0]);
 
   return (
-    <div style={{ position: "fixed", top: "300px" }}>
+    <div style={{ position: "fixed", top: "130px" }}>
       {(role === "ROLE_MODERATOR" || role === "ROLE_ADMIN") && (
         <>
           <ModeratorInfos classes={classes} />

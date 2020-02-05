@@ -24,11 +24,11 @@ export default function UserPage() {
 
   return (
     <Layout>
-      <Grid container style={{ marginTop: "80px" }}>
+      <Grid container style={{ marginTop: "80px", width: "100%" }}>
         <Grid container item xs={2} justify="center">
           <PostArticle handleSnackBar={handleSnackBar} classes={classes} />
         </Grid>
-        <Grid container item xs={6} xl={6} justify="center">
+        <Grid container item xs={6} xl={6} md={6} justify="center">
           <Box p={5} width="100%">
             <Box
               style={{
@@ -48,8 +48,15 @@ export default function UserPage() {
           </Box>
           <DisplayPublications handleSnackBar={handleSnackBar} />
         </Grid>
-        <Grid container item xs={3} xl={3} justify="center">
-          <Sidebar classes={classes} />
+        <Grid
+          container
+          item
+          xs={4}
+          justify="center"
+          alignItems=""
+          style={{ width: "100%" }}
+        >
+          <Sidebar classes={classes} style={{ width: "100%" }} />
         </Grid>
       </Grid>
 
