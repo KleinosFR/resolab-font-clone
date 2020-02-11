@@ -19,6 +19,7 @@ function HeaderIcons({ logOut, socket, role }) {
 
   const chatLogout = socket => {
     socket.emit(LOGOUT);
+    socket.disconnect();
   };
 
   const handleAdmin = () => {
