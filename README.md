@@ -1,68 +1,168 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+﻿# Résolab
 
-## Available Scripts
+<img src="https://resolab.netlify.com/static/media/resolab-simple-white.4b7806d8.png" alt="resolab-logo" width="350px"/>
 
-In the project directory, you can run:
+## About the project...
 
-### `npm start`
+Résolab is a social network project, created for children.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Its aim is to initiate children into developping good habits on social media, by experimenting Résolab.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Prerequisites
 
-### `npm test`
+Node > 10.16.3
+Npm > 6.13.6
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+This project was bootstrapped with `create-react-app`.
+[See doc here](https://github.com/facebook/create-react-app#create-react-app--)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone
+npm install # Install all dependencies
+npm start # Starts the development server
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Environment variables
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+You have to create a `.env` file in your root project directory.
 
-### `npm run eject`
+```bash
+# API entrypoint
+REACT_APP_API_URL=http://localhost:8089/api
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# API's server entry point for image's url creation.
+REACT_APP_MEDIA_URL=http://localhost:8089
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# WebSocket entry point for instantaneous's chat.
+REACT_APP_WEBSOCKET_URL="http://localhost:8000"
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# entry point for the deferred chat and stockage's messages in the database.
+REACT_APP_CHAT_URL="http://localhost:8000/chatMessages"
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Standards
 
-## Learn More
+We tend to follow the [AirBnB React Styleguide](https://github.com/airbnb/javascript#airbnb-javascript-style-guide-)
+We also used [Prettier](https://github.com/prettier/prettier-vscode#prettier-formatter-for-visual-studio-code) for our code's indentation 🤓
+Nearly all components are functions with Hooks.
+Our variables are written in camelCase. :camel:
+Components are written in PascalCase.
+![](https://static2.greatsong.net/artiste/96x96/pascal-obispo-2999.jpg)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Our stack
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<table>
+<tbody>
+<tr>
+<td>
+<img src="https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK.png" alt="react" width="200"/>
+</td>
+<td>
+<img src="https://i2.wp.com/programmingwithmosh.com/wp-content/uploads/2019/01/Redux.png?resize=367%2C287&ssl=1" alt="react" width="300"/>
+</td>
+<td>
+<img src="https://www.stickpng.com/assets/images/58480f66cef1014c0b5e4938.png" alt="material" width="250"/>
+</td>
+</tr>
+<tr></tr>
+</tbody>
+</table>
 
-### Code Splitting
+- [React](https://fr.reactjs.org/docs/getting-started.html)
+- [Redux](https://redux.js.org/)
+- [Material-UI](https://material-ui.com/)
+- [Axios](https://github.com/axios/axios#axios)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## How do we name our files and line up them
 
-### Analyzing the Bundle Size
+Our project contains a common interface, which is used at both for the `userpage` and `moderatorpage`.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+```bash
+src
+├── AdminPage # all components relative to the administration panel
+├── Assets # pictures and logos for the website
+├── Layout
+├── LoginPage # specific to the LoginPage
+├── ModeratorPage # special features and files for ModeratorPage
+├── SettingsPage # used as route for back-office management
+├── UserPage # special features and files for UserPage
+├── commonComponent # components which are used both for UserPage and ModeratorPage
+│ ├── Chat # components for Chat
+│ │ ├── DisplayContacts # display for contacts list on Chat
+│ │ └── messages # components for Messages
+│ ├── Notifications # Notifications for a Publication (like, comment)
+│ ├── Publications # Parent component for a Publication
+│ │ └── Comments # comments for a Publication
+│ └── Stories # 24 hours fleeting Publications
+├── hooks # custom hooks
+├── reducers # for Redux
+└── utils # useful functions
+```
 
-### Making a Progressive Web App
+So the common components are in the `commonComponent` folder.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+You will find on this folder subfolders in relation with the different constitutive components of the project (such as `Chat`, `Comments`, `Notifications`...)
 
-### Advanced Configuration
+`adminPage` part is used as Back-office part for the users's registration and management.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Who are we?
 
-### Deployment
+We are a 5 developpers team who did this project, formed of 4 front-end developers in _React/JS_ and one back-end developper in PHP.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### _Front-end developpers React/JS & back-end developpers Node/JS:_
 
-### `npm run build` fails to minify
+ <div style="display:flex;flex-direction:row;">
+	<div style="display:flex;flex-direction:column;">
+		<div><img src="https://avatars1.githubusercontent.com/u/53374849?s=60&v=4" /></div>
+		<div>Stéphane Lavaud</div>
+	</div>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+[_Github_](https://github.com/KleinosFR)
+
+[_Linkedin_](https://www.linkedin.com/in/stephane-lavaud-webdev/)
+
+ <div style="display:flex;flex-direction:row;">
+	<div style="display:flex;flex-direction:column;">
+		<div><img src="https://avatars0.githubusercontent.com/u/52760709?s=60&v=4" width="60px"/></div>
+		<div>Angélique Wons</div>
+	</div>
+
+[_Github_](https://github.com/angelique-w)
+
+[_Linkedin_](https://www.linkedin.com/in/ang%C3%A9lique-wons/)
+
+### _Front-end developpers React/JS:_
+
+<div style="display:flex;flex-direction:row;">
+	<div style="display:flex;flex-direction:column;">
+		<div><img src="https://avatars2.githubusercontent.com/u/54865651?s=60&v=4" /></div>
+		<div>Clara Desperben</div>
+	</div>
+
+[_Github_](https://github.com/clarade)
+
+[_Linkedin_](https://www.linkedin.com/in/clara-desperben/)
+
+ <div style="display:flex;flex-direction:row;">
+	<div style="display:flex;flex-direction:column;">
+		<div><img src="https://avatars3.githubusercontent.com/u/46849585?s=60&v=4" /></div>
+		<div>Monia Polus</div>
+	</div>
+
+[_Github_](https://github.com/Monia64)
+
+[_Linkedin_](https://www.linkedin.com/in/monia-polus/)
+
+### _Back-end developper PHP:_
+
+ <div style="display:flex;flex-direction:row;">
+	<div style="display:flex;flex-direction:column;">
+		<div><img src="https://avatars1.githubusercontent.com/u/55102862?s=60&v=4" width="60px"/></div>
+		<div>Anne-Claire Nanot</div>
+	</div>
+
+[_Github_](https://github.com/anneclaire64)
+
+[_Linkedin_](https://www.linkedin.com/in/anne-claire-nanot/)
